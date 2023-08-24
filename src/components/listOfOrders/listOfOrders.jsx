@@ -147,7 +147,7 @@ function Order({
     const status = {
         0: "To`ldirilshi kutilmoqda",
         1: "Tekshirilishi kutilmoqda",
-        2: "Reyestr",
+        6: "Reyestr",
         3: "Qaytarilgan",
     };
     const colors = {

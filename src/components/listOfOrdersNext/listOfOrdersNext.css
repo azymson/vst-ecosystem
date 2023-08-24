@@ -61,8 +61,14 @@ table {
 .green{
   color: green;
 }
+.selected .green{
+  color: white;
+}
+.selected .blue{
+  color: white;
+}
 .blue{
-  color: rgb(30, 83, 163);
+  color: rgb(99, 162, 255);
 }
 .red{
   color: rgb(255, 0, 64);

@@ -13,7 +13,7 @@ export default function OverViwePage(){
 
         </Header>
         <main className="overview-page">
-            <ListOfOrders download={true} header={"Reyestr"} url={"https://imbgroup.uz/get-registery.php"} />
+            <ListOfOrders download={true} header={"Reyestr"} url={"https://imbgroup.uz/registery.php"} />
         </main>
     </>
 }

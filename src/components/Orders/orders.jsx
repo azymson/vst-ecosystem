@@ -1,6 +1,7 @@
 import useHTTP from "../../hooks/useWeb";
 import customAlert from "../../hooks/useAlert";
 import { useState } from "react";
+import { nanoid } from "nanoid";
 /*eslint-disable*/
 export default function Order({
     context,
@@ -22,8 +23,11 @@ export default function Order({
     const status = {
         0: "To`ldirilshi kutilmoqda",
         1: "Tekshirilishi kutilmoqda",
-        2: "Reyestr",
+        2: "Yuklashga ketyapti",
         3: "Qaytarilgan",
+        4: "Yuklanyapti",
+        5: "Yuklap chiqdi",
+        6: "Reyestr"
     };
     const colors = {
         0: "yellow",
@@ -52,7 +56,7 @@ export default function Order({
                     if (k === "type")
                         return (
                             <>
-                                <td key={context.id + "f"} onClick={onSelect} className={colors[e]}>
+                                <td key={nanoid()} onClick={onSelect} className={colors[e]}>
                                     {status[e]}
                                 </td>
                                 <td>

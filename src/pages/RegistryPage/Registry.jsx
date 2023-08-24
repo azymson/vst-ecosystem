@@ -244,12 +244,7 @@ export default function RegistryPage() {
                             setSelect={setSelect}
                         />
                     </div>
-                    <div style={{ marginTop: "20px" }}>
-                        <ListOfOrders
-                            url={"https://imbgroup.uz/get-list.php"}
-                            header={"Tasdiqini kutayotganlar"}
-                        />
-                    </div>
+                    
                 </div>
             </main>
         </>

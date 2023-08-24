@@ -1,6 +1,7 @@
 import useHTTP from "../../hooks/useWeb";
 import customAlert from "../../hooks/useAlert";
 import { useState } from "react";
+/*eslint-disable*/
 export default function Order({
     context,
     clickFunc,
@@ -10,6 +11,8 @@ export default function Order({
     selectable,
     deletable,
     refresh
+/*eslint-disable*/
+
 }) {
     const [loading, setLoading] = useState(false)
     /*eslint-disable*/

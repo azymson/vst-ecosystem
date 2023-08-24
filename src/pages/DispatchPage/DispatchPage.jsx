@@ -36,15 +36,14 @@ export default function DispatchPage() {
         console.log(select);
         setLoading(true);
         //https://work.imbgroup.uz/filter
-        sendRequest("https://work.imbgroup.uz/filter", "POST", { id: select.id, dispatcher: 1 })
+        sendRequest("https://work.imbgroup.uz/filter", "POST", { id: select, dispatcher: 1 })
             .then((e) => {
                 setSelect(undefined);
                 setLoading(false);
-                customAlert(e)
-                customAlert(select.id + ", raqamli so`rovni band qildingiz", "success");
+                customAlert(e, "success")
                 sendRequest("https://imbgroup.uz/get-dispatch-list.php", "POST").then((response) => {
                     return setUncheckedOrders(JSON.parse(response));
-                })
+                });
             }).catch(e => customAlert(e))
     }
     return <>

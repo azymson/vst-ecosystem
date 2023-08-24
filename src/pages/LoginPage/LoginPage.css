@@ -1,0 +1,18 @@
+.LoginPage{
+    padding: 20px;
+    margin-top: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 70px);
+}
+.login-form{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 400px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+    padding: 20px 40px;
+    border-radius: 10px;
+    
+}

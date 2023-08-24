@@ -1,0 +1,18 @@
+.dispatch-page{
+    margin-top: 70px;
+    padding: 20px;
+}
+.dispatch-page__reserve-button{
+    border: var(--border);
+    margin-top: 20px;
+    border-radius: 5px;
+    padding: 20px;
+}
+.dispatch-page__row{
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+.d-none{
+    display: none;
+}

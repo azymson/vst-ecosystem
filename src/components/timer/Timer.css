@@ -1,0 +1,23 @@
+.timer-border{
+    background: rgb(216, 224, 216);
+    color: white;
+    border-radius: 5px;
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    min-width: 100px;
+    height: 50px;
+}
+.timer-body{
+    background: rgb(35, 112, 106);
+    border-radius: 5px;
+    transition: 1s;
+    height: 100%;
+}
+.timer-score{
+    position: absolute;
+    width: 100%;
+    left: 20px;
+    top: calc(50% - 8px);
+    color: black;
+}

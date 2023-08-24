@@ -1,0 +1,40 @@
+
+.grid-row{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-gap: 20px;
+}
+.mt-70{
+    margin-top: 70px;
+}
+.registry-page{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    border-radius: 5px;
+    height: min-content;
+    
+}
+.registry-page img{
+    align-self: center;
+}
+.registry-page H1{
+    font-weight: normal;
+    text-align: center;
+    font-size: 15px;
+}
+
+.registry-page .row{
+    display: flex;
+    gap: 10px;    
+}
+.registry-page .row input{
+    width: 100% ;
+}
+@media (max-width: 1600px) {
+    .grid-row{
+        display: flex;
+        flex-direction: column;
+    }
+}

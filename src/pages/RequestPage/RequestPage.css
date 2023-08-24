@@ -1,0 +1,29 @@
+.request-page {
+    padding: 20px;
+    margin-top: 70px;
+}
+
+.request-page__form {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.p-20 {
+    padding: 20px;
+}
+
+.request-list {
+    margin-top: 20px;
+    border: var(--border);
+    border-radius: 5px;
+}
+
+.request-page .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+}

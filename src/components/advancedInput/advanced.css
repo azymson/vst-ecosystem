@@ -1,0 +1,30 @@
+.advanced-input{
+    position: relative;
+}
+.advanced-input input{
+    width: 100%;
+}
+.advanced-input .hint{
+    position: absolute;
+    z-index: 2;
+    background-color: white;
+    width: 100%;
+    flex-direction: column;
+    border: var(--border);
+    transform: translateY(-1px);
+    max-height: 400px;
+    overflow-y: scroll;
+    display: none;
+}
+.hint-elem{
+    padding: 20px;
+}
+.hint-elem:hover{
+    background-color: rgb(196, 196, 196);
+    cursor: pointer;
+    
+}
+
+.visiable{
+    display: flex !important;
+}

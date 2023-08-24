@@ -11,7 +11,7 @@ export default function Order({
     deletable,
     refresh
 }) {
-    const [loading, setLoading] = useState("false")
+    const [loading, setLoading] = useState(false)
     /*eslint-disable*/
     function changeSelectedData() {
         clickFunc();
@@ -36,8 +36,8 @@ export default function Order({
             reject_latter: "So`rov menedjer tomonidan qaytarildi",
         }).then((e) => {
             customAlert(e, "success");
-            refresh();
             setLoading(false);
+            refresh();
         });
     };
     const styleSelected =
@@ -49,7 +49,7 @@ export default function Order({
                     if (k === "type")
                         return (
                             <>
-                                <td key={i} onClick={onSelect} className={colors[e]}>
+                                <td key={context.id + "f"} onClick={onSelect} className={colors[e]}>
                                     {status[e]}
                                 </td>
                                 <td>
@@ -57,7 +57,7 @@ export default function Order({
                                         style={{ width: "100%" }}
                                         onClick={() => cancelFunc(context.id)}
                                     >
-                                        {(loading)?"Qaytarish":"Jonatilmoqda"}
+                                        {(!loading)?"Qaytarish":"Jonatilmoqda"}
                                     </button>
                                 </td>
                             </>

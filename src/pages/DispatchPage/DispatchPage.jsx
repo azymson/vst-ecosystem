@@ -12,20 +12,39 @@ export default function DispatchPage() {
 
     const { sendRequest } = useHTTP();
     const [arrayOfUncheckedOrders, setUncheckedOrders] = useState([]);
+    const [history, setHistory] = useState([]);
+
     useEffect(() => {
         sendRequest("https://imbgroup.uz/get-dispatch-list.php", "POST")
             .then(e => {
                 setUncheckedOrders(JSON.parse(e));
+            })
+        sendRequest("https://imbgroup.uz/dispatch-history.php", "POST")
+            .then(e => {
+                setHistory(JSON.parse(e));
             })
         //eslint-disable-next-line
     }, []);
     useEffect(() => {
         const interval = setInterval(
             () =>
+                sendRequest("https://imbgroup.uz/dispatch-history.php", "POST")
+                    .then(e => {
+                        setHistory(JSON.parse(e));
+                    }),
+            1000
+        );
+        return () => {
+            clearInterval(interval);
+        }; //eslint-disable-next-line
+    }, [history]);
+    useEffect(() => {
+        const interval = setInterval(
+            () =>
                 sendRequest("https://imbgroup.uz/get-dispatch-list.php", "POST").then((response) => {
                     return setUncheckedOrders(JSON.parse(response));
                 }),
-            5000
+            1000
         );
         return () => {
             clearInterval(interval);
@@ -49,6 +68,11 @@ export default function DispatchPage() {
     return <>
         <Header></Header>
         <main className="dispatch-page">
+            <div className="nav border p-20 mb-20">
+                <div>ASOSIY SAHIFA</div>
+                <div>/</div>
+                <div>DISPETCHERLIK</div>
+            </div>
             <div style={{ marginBottom: 20 }}>
                 <ListOfOrdersNext
                     arrayOforders={arrayOfUncheckedOrders}
@@ -59,11 +83,19 @@ export default function DispatchPage() {
                 />
             </div>
 
-            <ListOfOrdersDispatch
-                url={"https://imbgroup.uz/get-dispatcher-id.php"}
-                payload={{ dispatcher: 1 }}
-                header={"Tasdiqlanishi kutulayotgan sorovlar"}
-            />
+            <div className="border mb-20">
+                <ListOfOrdersDispatch
+                    url={"https://imbgroup.uz/get-dispatcher-id.php"}
+                    header={"Tasdiqlanishi kutulayotgan sorovlar"}
+                />
+            </div>
+            <div className="border ">
+                <ListOfOrdersNext
+                    arrayOforders={history}
+                    header={"So`rovlar tarixi"}
+                    setSelect={() => { }}
+                />
+            </div>
 
             <div className={(select === undefined) ? "dispatch-page__reserve-button d-none" : "dispatch-page__reserve-button"} >
                 <div className="dispatch-page__heading">

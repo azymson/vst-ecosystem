@@ -79,10 +79,19 @@ export default function AnalyzePage() {
         }
     }
     function rejectFunction() {
+        setLoading(true);
         sendRequest("https://imbgroup.uz/reject-request.php", "POST", {
             id: select,
             reject_latter: rejectLatter
-        }).then((e) => alert(e));
+        }).then((e) => {
+            setLoading(false);
+            customAlert(e, "success")
+        });
+        setSelect("");
+        sendRequest("https://imbgroup.uz/get-list.php", "POST")
+            .then(e => {
+                setArrayOforders(JSON.parse(e));
+            })
     }
     function setAllData({ id, carName, carID, supCarID, supCarType, fio, tel, carType, sapcode, orgName, sum, from_p, to_p }) {
         console.log(carName);
@@ -179,13 +188,16 @@ export default function AnalyzePage() {
                         value={fio}
                         onKeyDown={e => (e.key === "Enter") ? e.target.nextSibling.focus() : null}
                     />
-                    <input
-                        onChange={(e) => setTel(e.target.value)}
-                        type="text"
-                        placeholder="Telefon raqami"
-                        value={tel}
-                        onKeyDown={e => (e.key === "Enter") ? e.target.nextSibling.focus() : null}
-                    />
+                    <div className="row">
+                        <input
+                            onChange={(e) => setTel(e.target.value)}
+                            type="text"
+                            placeholder="Telefon raqami"
+                            value={tel}
+                            onKeyDown={e => (e.key === "Enter") ? e.target.nextSibling.focus() : null}
+                        />
+                        <button onClick={() => window.location.href = 'tel:+998' + tel}>call</button>
+                    </div>
 
                     <select
                         onChange={(e) => setCarType(e.target.value)}
@@ -228,7 +240,7 @@ export default function AnalyzePage() {
                         {reject ? (
                             <div className="reject-grid">
                                 <input type="text" placeholder="Qaytarish sababi" value={rejectLatter} onChange={e => setRejectLatter(e.target.value)} />
-                                <button onClick={rejectFunction}>OK</button>
+                                <button onClick={rejectFunction}>{(!loading) ? "OK" : "Jonatilmoqda"}</button>
                                 <button onClick={() => setReject(false)}>Orqaga qaytish</button>
                             </div>
                         ) : (
@@ -243,7 +255,7 @@ export default function AnalyzePage() {
                     <ListOfOrdersNext
                         arrayOforders={arrayOforders}
                         header={"Tasdiqini kutayotganlar"}
-                        clickFunc={(e) => { console.log(e); setAllData(e) }}
+                        clickFunc={(e) => { setAllData(e) }}
                         selectable={true}
                         select={select}
                         setSelect={setSelect}

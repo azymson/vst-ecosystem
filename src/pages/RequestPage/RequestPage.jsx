@@ -18,6 +18,7 @@ export default function RequestPage() {
     const [comment, setComment] = useState("");
     const [loading, setLoading] = useState(false);
     const [arrayOforders, setArrayOforders] = useState([]);
+    const [score, setScore] = useState(0);
 
     const firmCodeRef = useRef(null);
     const selectedFromPlaceRef = useRef(null);
@@ -27,7 +28,7 @@ export default function RequestPage() {
     const commentRef = useRef(null);
     const submitRef = useRef(null);
 
-
+    
     useEffect(() => {
         firmCodeRef.current.focus();
     }, []);
@@ -133,6 +134,11 @@ export default function RequestPage() {
         <>
             <Header />
             <main className="request-page">
+                <div className="nav border p-20 mb-20">
+                    <div>ASOSIY SAHIFA</div>
+                    <div>/</div>
+                    <div>SOROV BERISH</div>
+                </div>
                 <div className="request-page__form border" onSubmit={submitForm}>
                     Yangi sorov ochish
                     <input
@@ -143,13 +149,19 @@ export default function RequestPage() {
                         ref={firmCodeRef}
                         onKeyDown={(event) => { if (event.key === 'Enter') handleKeyPress(event, selectedFromPlaceRef) }}
                     />
+                    
                     <div className="row">
+                        {(firmCode === "101")?
+                        <select onChange={(e)=>setSelectedFromPlace(e.target.value)}>
+                            <option value="Toshkent">Bektemir</option>
+                            <option value="F Toshkent">Family</option>
+                        </select>:
                         <EditablePopup
                             Ref={selectedFromPlaceRef}
                             heading={"Qayerdan"}
                             onKeyDown={(event) => { { if (event.key === 'Enter') selectedToPlaceRef.current.focus() } }}
                             onSelectfunc={setSelectedFromPlace}
-                        />
+                        />}
                         <EditablePopup
                             Ref={selectedToPlaceRef}
                             heading={"Qayerga"}
@@ -174,6 +186,12 @@ export default function RequestPage() {
                         onChange={(e) => setComment(e.target.value)}
                     />
                     <input
+                        type="text"
+                        value={score}
+                        placeholder="ball"
+                        onChange={(e) => setScore(e.target.value)}
+                    />
+                    <input
                         type="date"
                         ref={selectedDateRef}
                         value={selectedDate}
@@ -192,15 +210,15 @@ export default function RequestPage() {
                     download={false}
                     deletable={true}
                 /> */}
-          
-                    <ListOfOrdersNext
-                        url={"https://imbgroup.uz/get-request-list.php"}
-                        header={"Sorovlar jadvali"}
-                        download={false}
-                        deletable={true}
-                        arrayOforders={arrayOforders}
-                        refresh={refresh}
-                    />
+
+                <ListOfOrdersNext
+                    url={"https://imbgroup.uz/get-request-list.php"}
+                    header={"Sorovlar jadvali"}
+                    download={false}
+                    deletable={true}
+                    arrayOforders={arrayOforders}
+                    refresh={refresh}
+                />
             </main>
         </>
     );

@@ -22,6 +22,7 @@ export default function AccountPage() {
     const [func6, setFunc6] = useState(false);
     const [func7, setFunc7] = useState(false);
     const [func8, setFunc8] = useState(false);
+    const [func9, setFunc9] = useState(false);
     //eslint-disable-next-line
     useEffect(() => getListOfAccounts(), []);
 
@@ -64,13 +65,14 @@ export default function AccountPage() {
                     func5,
                     func6,
                     func7,
-                    func8
+                    func8,
+                    func9
                 }
             }).then(e => {
                 if(e.split(" ")[0] === "Duplicate"){
                     customAlert("Bunday login mavjud");
                 }else{
-                    customAlert("Akkaunt qo`shildi", "success");
+                    customAlert(e, "success");
                 }
                 sendRequest("https://imbgroup.uz/get-all-user.php", "POST")
                     .then(e => {
@@ -95,10 +97,12 @@ export default function AccountPage() {
                 func5,
                 func6,
                 func7,
-                func8
+                func8,
+                func9
             }
-        }).then(() => {
-            customAlert("Muvofaqiyatli o`zgartirildi", "success");
+        }).then((response) => {
+            customAlert(response, "success");
+            console.log(response);
             sendRequest("https://imbgroup.uz/get-all-user.php", "POST")
                     .then(e => {
                         setArrayOfUsers(JSON.parse(e));
@@ -138,6 +142,7 @@ export default function AccountPage() {
             setFunc6(false);
             setFunc7(false);
             setFunc8(false);
+            setFunc9(false);
             const data = JSON.parse(response);
             data.map(e => e.prev).forEach((e) => {
                 switch (e) {
@@ -150,6 +155,7 @@ export default function AccountPage() {
                     case '6': setFunc6(true); break;
                     case '7': setFunc7(true); break;
                     case '8': setFunc8(true); break;
+                    case '9': setFunc9(true); break;
                 }
             })
         });
@@ -209,6 +215,10 @@ export default function AccountPage() {
                             <input checked={func8} onChange={e => setFunc8(e.target.checked)} type="checkbox" id="privilege_request" />
                             Fors major
                         </label>
+                        <label className="priveilege">
+                            <input checked={func9} onChange={e => setFunc9(e.target.checked)} type="checkbox" id="privilege_request" />
+                            Lokatsiya
+                        </label>
                     </div>
                     {(mode === "create") ?
                         <button onClick={createAccount}>Yangi akkaunt qo`shish</button>
@@ -222,7 +232,7 @@ export default function AccountPage() {
                     {arrayOfUsers.map((e, i) =>
                         <div className="border p-20 mb-20 user-data" key={i}>
                             <div className="user">
-                                <div className="username">{e.name[0] + "" + e.second_name[0]}</div>
+                                <div className="username"><img src="https://imbgroup.uz/img/HQwHI.jpg" alt="" width={40} height={40}/></div>
                                 <div className="fullname">{e.name + " " + e.second_name}</div>
                             </div>
                             <div className="control">

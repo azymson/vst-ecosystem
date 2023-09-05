@@ -100,13 +100,14 @@ export default function ListOfOrders({
         <div className="order-list border">
             <div className="row">
                 <p>{header}</p>
-                {download ? (
+                {!download ? (
                     <i
                         className="fi fi-rr-download downld-btn"
                         onClick={downloadOnExcel}
                     ></i>
                 ) : null}
             </div>
+            
             <table>
                 <tbody>
                     <tr>{tableHeader}</tr>
@@ -147,7 +148,7 @@ function Order({
     const status = {
         0: "To`ldirilshi kutilmoqda",
         1: "Tekshirilishi kutilmoqda",
-        6: "Reyestr",
+        5: "Reyestr",
         3: "Qaytarilgan",
     };
     const colors = {

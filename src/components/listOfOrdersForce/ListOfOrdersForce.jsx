@@ -1,8 +1,9 @@
 import {useState } from "react";
 import Order from "../Orders/orders";
-import "./listOfordersNext.css";
+import "./ListOfOrdersForce.css";
+import OrderForce from "../OrdersForce/orders";
 /*eslint-disable*/
-export default function ListOfOrdersNext({
+export default function ListOfOrdersForce({
     header,
     download,
     clickFunc,
@@ -78,12 +79,12 @@ export default function ListOfOrdersNext({
                 {downloadButton}
             </div>
 
-            <table>
+            <table style={{position:"relative"}}>
                 <tbody>
-                    <tr><td>№</td>{tableHeader}</tr>
+                    <tr style={{position:"sticky"}}><td>№</td>{tableHeader}</tr>
 
                     {arrayOforders?.map((e, i) => (
-                        <><Order
+                        <><OrderForce
                         key={i}
                         context={e}
                         clickFunc={() =>clickFunc !== undefined ? clickFunc(e) : () => {}}

@@ -32,6 +32,7 @@
     justify-content: center;
     text-transform: uppercase;
     position: relative;
+    overflow: hidden;
 }
 .username:hover .nav-hint{
     display: block;
@@ -60,4 +61,61 @@
     border-bottom: 20px solid rgb(255, 255, 255);
     top:-30px;
     right: 10px;
+}
+.corner-right{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+.notification{
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    position: relative;
+}
+
+.notification:hover{
+    cursor: pointer;    
+    background-color: rgb(245, 245, 245);
+}
+
+.notification_block{
+    position: absolute;
+    background: white;
+    max-width: 400px;
+    width: max-content;
+    top: 40px;
+    right: 0;
+    display: flex;
+    flex-direction: column-reverse;
+    max-height: 500px;
+    overflow-y: auto;
+}
+.not-item{
+    padding: 10px 20px;
+    border-bottom: 1px solid rgb(243, 243, 243);
+}
+.not-item:first-child{
+    border-bottom: none;
+}
+.not-item:hover{
+    background-color:rgb(243, 243, 243);
+}
+.not-item-header{
+    font-size: 18px;
+}
+.not-item-content{
+    font-size: 14px;
+}
+@media (max-width: 500px) {
+    .name{
+        display: none;
+    }
+    .not-item{
+        max-width: 290px;
+    }
 }

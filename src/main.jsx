@@ -13,7 +13,9 @@ import OverViwePage from './pages/OverViewPage/OverViwePage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import AccountPage from './pages/AccountPage/AccountPage';
 import StatusPage from './pages/StatusPage/StatusPage';
-
+import DispatchAnalyze from './pages/Dispatch-analyze/DispatchAnalyze';
+import LocationPage from './pages/LocationPage/LocationPage';
+import ForcePage from './pages/Force/ForcePage';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     
@@ -29,6 +31,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route element={<OverViwePage/>} path={"/overview"}/>
         <Route element={<AccountPage/>} path={"/account"}/>
         <Route element={<StatusPage/>} path={"/status"}/>
+        <Route element={<DispatchAnalyze/>} path={"/dispatch-analyze"}/>
+        <Route element={<LocationPage/>} path={"/location"}/>
+        <Route element={<ForcePage/>} path={"/force"}/>
         <Route path='*' element={<div>404 Not found</div>}></Route>
 
       </Routes>

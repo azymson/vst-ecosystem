@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import Header from "../../components/header/header";
 import ListOfOrdersNext from "../../components/listOfOrdersNext/listOfOrdersNext";
-import "./StatusPage.css";
+import "./ForcePage.css";
 import useHTTP from "../../hooks/useWeb";
 import customAlert from "../../hooks/useAlert";
-export default function StatusPage() {
+import ListOfOrdersForce from "../../components/listOfOrdersForce/ListOfOrdersForce";
+export default function ForcePage() {
     const [arrayOfOrders, setArrayOfOrders] = useState([]);
     const [select, setSelect] = useState("");
     const [loading1, setLoading1] = useState(false);
@@ -15,7 +16,7 @@ export default function StatusPage() {
     const { sendRequest } = useHTTP();
 
     useEffect(() => {
-        sendRequest("https://imbgroup.uz/get-registery.php", "POST").then(
+        sendRequest("https://imbgroup.uz/force.php", "POST").then(
             (response) => {
                 console.log(response);
                 setArrayOfOrders(JSON.parse(response));
@@ -24,7 +25,7 @@ export default function StatusPage() {
         //eslint-disable-next-line
     }, []);
     function refresh(){
-        sendRequest("https://imbgroup.uz/get-registery.php", "POST").then(
+        sendRequest("https://imbgroup.uz/force.php", "POST").then(
             (response) => {
                 setArrayOfOrders(JSON.parse(response));
             }
@@ -46,7 +47,7 @@ export default function StatusPage() {
             orgName: OrgName
         }).then((response) => {
             setLoading1(false);
-            sendRequest("https://imbgroup.uz/get-registery.php", "POST").then(
+            sendRequest("https://imbgroup.uz/force.php", "POST").then(
                 (response1) => {
                     setArrayOfOrders(JSON.parse(response1));
                     customAlert(response, "success");
@@ -58,20 +59,8 @@ export default function StatusPage() {
         <>
             <Header />
             <main className="p-20 mt-70">
-                <div className="border p-20 mb-20 row">
-                    Sapkod
-                    <input type="text" value={sapcode} onChange={e=>setSapcode(e.target.value)} placeholder="Sapkod" />
-                    Firma nomi
-                    <input type="text" value={OrgName} onChange={e=>setOrgName(e.target.value)} placeholder="Firma nomi" />
-                    Status
-                    <select value={type} onChange={(e)=>{setType(e.target.value)}}>
-                        <option value="2">Start</option>
-                        <option value="4">Yuklab chiqdi</option>
-                        <option value="5">Finish</option>
-                    </select>
-                    <button onClick={editSelectedData}>{(!loading1)?"O`zgartirish":"Jon`atilmoqda"}</button>
-                </div>
-                <ListOfOrdersNext
+                
+                <ListOfOrdersForce
                     select={select}
                     clickFunc={(context) => onListClick(context)}
                     setSelect={setSelect}

@@ -82,7 +82,7 @@ export default function RegistryPage() {
             answer = false;
         }
 
-        if (answer){
+        if (answer) {
             setLoading(true);
             sendRequest("https://imbgroup.uz/post-product.php", "POST", {
                 carType,
@@ -103,7 +103,8 @@ export default function RegistryPage() {
                     .then(e => {
                         setArrayOforders(JSON.parse(e));
                     })
-            });}
+            });
+        }
     }
 
     useEffect(() => {
@@ -134,118 +135,127 @@ export default function RegistryPage() {
     return (
         <>
             <Header />
-            <main className="p-20 grid-row mt-70">
-                <div className="registry-page border">
-                    {/* <img src={headset} alt="" width={100}/> */}
-                    <p>Buyurtmani tasdiqlash</p>
 
-                    <div className="row">
+            <main className="p-20 mt-70">
+                <div className="nav border p-20 mb-20">
+                    <div>ASOSIY SAHIFA</div>
+                    <div>/</div>
+                    <div>SOROV TO`LDIRISH</div>
+                </div>
+                <div className="grid-row">
+                    <div className="registry-page border">
+                        {/* <img src={headset} alt="" width={100}/> */}
+                        <p>Buyurtmani tasdiqlash</p>
+
+                        <div className="row">
+                            <input
+
+                                onChange={(e) => setCarName(e.target.value)}
+                                type="text"
+                                id="avtonumber"
+                                name="avtonumber"
+                                placeholder="Avtomobil rusumi"
+                                value={carName}
+                                onKeyDown={e => (e.key === "Enter") ? e.target.nextSibling.focus() : null}
+                            />
+                            <input
+                                onChange={(e) => setCarID(e.target.value)}
+                                type="text"
+                                id="carID"
+                                name="carID"
+                                placeholder="Avtomobil raqami"
+                                value={carID}
+                                onKeyDown={e => (e.key === "Enter") ? supRef.current.focus() : null}
+                            />
+                        </div>
+                        <div className="row">
+                            <input
+                                onChange={(e) => setSupID(e.target.value)}
+                                type="text"
+                                id="supCarID"
+                                name="supCarID"
+                                placeholder="Pretsep raqmi"
+                                value={supCarID}
+                                ref={supRef}
+                                onKeyDown={e => (e.key === "Enter") ? e.target.nextSibling.focus() : null}
+                            />
+
+                            <select
+                                name="pretcepturi"
+                                id="dfdfs"
+                                value={supCarType}
+                                onChange={(e) => setSupCarType(e.target.value)}
+                                onKeyDown={e => (e.key === "Enter") ? carNameRef.current.focus() : null}
+                            >
+                                <option value="TENT">TENT</option>
+                                <option value="REF">REF</option>
+                            </select>
+                        </div>
                         <input
-
-                            onChange={(e) => setCarName(e.target.value)}
+                            ref={carNameRef}
+                            onChange={(e) => setFio(e.target.value)}
                             type="text"
-                            id="avtonumber"
-                            name="avtonumber"
-                            placeholder="Avtomobil rusumi"
-                            value={carName}
+                            name="sapkod"
+                            placeholder="FIO"
+                            value={fio}
                             onKeyDown={e => (e.key === "Enter") ? e.target.nextSibling.focus() : null}
                         />
                         <input
-                            onChange={(e) => setCarID(e.target.value)}
+                            onChange={(e) => setTel(e.target.value)}
                             type="text"
-                            id="carID"
-                            name="carID"
-                            placeholder="Avtomobil raqami"
-                            value={carID}
-                            onKeyDown={e => (e.key === "Enter") ? supRef.current.focus() : null}
-                        />
-                    </div>
-                    <div className="row">
-                        <input
-                            onChange={(e) => setSupID(e.target.value)}
-                            type="text"
-                            id="supCarID"
-                            name="supCarID"
-                            placeholder="Pretsep raqmi"
-                            value={supCarID}
-                            ref={supRef}
+                            name="sapkod"
+                            placeholder="Telefon raqami"
+                            value={tel}
                             onKeyDown={e => (e.key === "Enter") ? e.target.nextSibling.focus() : null}
                         />
 
                         <select
-                            name="pretcepturi"
-                            id="dfdfs"
-                            value={supCarType}
-                            onChange={(e) => setSupCarType(e.target.value)}
-                            onKeyDown={e => (e.key === "Enter") ? carNameRef.current.focus() : null}
+                            onChange={(e) => setCarType(e.target.value)}
+                            name="avto"
+                            id="avto"
+                            value={carType}
+                            onKeyDown={e => (e.key === "Enter") ? e.target.nextSibling.focus() : null}
                         >
-                            <option value="TENT">TENT</option>
-                            <option value="REF">REF</option>
+                            <option value="fura">Fura</option>
+                            <option value="Isuzu (5t)">Isuzu (5t)</option>
+                            <option value="Isuzu (10t)">Isuzu (10t)</option>
+                            <option value="Labo">Labo</option>
                         </select>
-                    </div>
-                    <input
-                        ref={carNameRef}
-                        onChange={(e) => setFio(e.target.value)}
-                        type="text"
-                        name="sapkod"
-                        placeholder="FIO"
-                        value={fio}
-                        onKeyDown={e => (e.key === "Enter") ? e.target.nextSibling.focus() : null}
-                    />
-                    <input
-                        onChange={(e) => setTel(e.target.value)}
-                        type="text"
-                        name="sapkod"
-                        placeholder="Telefon raqami"
-                        value={tel}
-                        onKeyDown={e => (e.key === "Enter") ? e.target.nextSibling.focus() : null}
-                    />
-
-                    <select
-                        onChange={(e) => setCarType(e.target.value)}
-                        name="avto"
-                        id="avto"
-                        value={carType}
-                        onKeyDown={e => (e.key === "Enter") ? e.target.nextSibling.focus() : null}
-                    >
-                        <option value="fura">Fura</option>
-                        <option value="Isuzu (5t)">Isuzu (5t)</option>
-                        <option value="Isuzu (10t)">Isuzu (10t)</option>
-                        <option value="Labo">Labo</option>
-                    </select>
 
 
-                    <input
-                        onChange={(e) => setOrgName(e.target.value)}
-                        type="text"
-                        placeholder="Firma nomi"
-                        value={orgName}
-                        onKeyDown={e => (e.key === "Enter") ? e.target.nextSibling.focus() : null}
-                    />
-                    <input
-                        onChange={(e) => setSum(e.target.value)}
-                        type="text"
-                        name="sapkod"
-                        placeholder="Summa"
-                        value={sum}
-                        onKeyDown={e => (e.key === "Enter") ? e.target.nextSibling.focus() : null}
-                    />
-                    <button onClick={sendMessageToBot}>{loading ? "Jonatilmoqda..." : "Jonatish"}</button>
-
-                </div>
-                <div>
-                    <div className="border p-20">
-                        <ListOfOrdersNext
-                            arrayOforders={arrayOforders}
-                            header={"Sorovlar"}
-                            clickFunc={(e) => setID(e.id)}
-                            selectable={true}
-                            select={select}
-                            setSelect={setSelect}
+                        <input
+                            onChange={(e) => setOrgName(e.target.value)}
+                            type="text"
+                            placeholder="Firma nomi"
+                            value={orgName}
+                            onKeyDown={e => (e.key === "Enter") ? e.target.nextSibling.focus() : null}
                         />
+                        <input
+                            onChange={(e) => setSum(e.target.value)}
+                            type="text"
+                            name="sapkod"
+                            placeholder="Summa"
+                            value={sum}
+                            onKeyDown={e => (e.key === "Enter") ? e.target.nextSibling.focus() : null}
+                        />
+                        <button onClick={sendMessageToBot}>{loading ? "Jonatilmoqda..." : "Jonatish"}</button>
+
                     </div>
-                    
+                    <div>
+                        <div className="border p-20">
+                            <ListOfOrdersNext
+                                arrayOforders={arrayOforders}
+                                header={"Sorovlar"}
+                                clickFunc={(e) => setID(e.id)}
+                                selectable={true}
+                                select={select}
+                                setSelect={setSelect}
+                            />
+                        </div>
+
+                    </div>
                 </div>
+
             </main>
         </>
     );

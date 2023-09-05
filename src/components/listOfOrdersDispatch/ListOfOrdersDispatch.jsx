@@ -71,7 +71,6 @@ export default function ListOfOrdersDispatch({header,url,download,clickFunc,sele
                 <tbody>
                     {/*eslint-disable-next-line*/}
                     <tr>
-                    <td>Firma kodi</td>
                     <td>Buyurtma ID</td>
                     <td>Qayerdan</td>
                     <td>Qayerga</td>
@@ -113,7 +112,6 @@ function Order({context,clickFunc,onSelect,selectedElement,id,selectable,}) {
         2: "blue",
         3: "red",
     };
-    console.log(context)
     const styleSelected =
         id === selectedElement && selectable ? "order selected" : "order";
     return (

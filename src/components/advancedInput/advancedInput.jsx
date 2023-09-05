@@ -1,7 +1,7 @@
 import "./advanced.css";
 import { useState } from "react";
 /*eslint-disable*/
-const EditablePopup = ({onSelectfunc, Ref, onKeyDown}) => {
+const EditablePopup = ({onSelectfunc, Ref, onKeyDown,heading}) => {
 /*eslint-disable*/
     const [value, setValue] = useState("Toshkent");
     const [focused, setFocused] = useState(false);
@@ -45,7 +45,7 @@ const EditablePopup = ({onSelectfunc, Ref, onKeyDown}) => {
         <div className="advanced-input">
             <input
                 type="text"
-                placeholder="Qayerdan"
+                placeholder={heading}
                 value={value}
                 ref={Ref}
                 onKeyDown={onKeyDown}

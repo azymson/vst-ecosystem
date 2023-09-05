@@ -39,10 +39,10 @@ export default function HomePage() {
                                 <i className="fi fi-rr-pencil"></i>
                             </h2>
                             <h3>Sorov berish</h3>
-                            <h4>Yangi so’rov ochish</h4>
+                            <h4>Yangi so`rov ochish</h4>
                         </div>
                     </Link>}
-                    {(!table.includes("0")) ? null : <Link to={"/register"}>
+                    {(!table.includes("1")) ? null : <Link to={"/register"}>
                         <div className="box">
                             <h2>
                                 <i className="fi fi-rr-settings-sliders"></i>
@@ -105,15 +105,6 @@ export default function HomePage() {
                             <h4>Akkaunt qo`shish va o`chirish</h4>
                         </div>
                     </Link>}
-                    {(!table.includes("8")) ? null : <Link to={"/forse"}>
-                        <div className="box">
-                            <h2>
-                                <i className="fi fi-rr-bolt"></i>
-                            </h2>
-                            <h3>Fors major</h3>
-                            <h4>To`liq jadvalni o`zgartirish</h4>
-                        </div>
-                    </Link>}
                     {(!table.includes("7")) ? null : <Link to={"/dispatch-analyze"}>
                         <div className="box">
                             <h2>
@@ -123,7 +114,24 @@ export default function HomePage() {
                             <h4>Dispetcherlar so`ro`vlar davomati</h4>
                         </div>
                     </Link>}
-                    
+                    {(!table.includes("9")) ? null : <Link to={"/location"}>
+                        <div className="box">
+                            <h2>
+                                <i className="fi fi-rr-marker"></i>
+                            </h2>
+                            <h3>Lokatsiya</h3>
+                            <h4>Dispetcherlar so`ro`vlar davomati</h4>
+                        </div>
+                    </Link>}
+                    {(!table.includes("99")) ? null : <Link to={"/force"}>
+                        <div className="box">
+                            <h2>
+                                <i className="fi fi-rr-flame"></i>
+                            </h2>
+                            <h3>Fors major</h3>
+                            <h4>Noodatiy holatlar</h4>
+                        </div>
+                    </Link>}
                 </div>
             </main>
         </>

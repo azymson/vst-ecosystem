@@ -129,3 +129,11 @@ input[type="submit"]:hover{
     max-width: 340px;
     width: 100%;
 }
+.nav{
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    font-weight: 600;
+    padding-left: 0;
+    color: rgb(70, 70, 70);
+}

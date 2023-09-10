@@ -12,8 +12,9 @@
     margin-bottom: 20px;
 }
 .account-page .row{
-    display: flex;
+    display: grid;
     gap: 20px;
+
 }
 .account-page input {
     width: 100%;
@@ -58,4 +59,41 @@
 }
 .row button{
     width: 100%;
+}
+.codes{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.code{
+    border: 1px solid rgb(238, 238, 238);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    
+}
+.code i{
+    color: rgb(219, 219, 219);
+}
+.code i:hover{
+    cursor: pointer;
+}
+.div{
+    display: flex;
+    gap: 20px;
+}
+@media (max-width: 478px){
+    .priveileges{
+        display: flex;
+        flex-direction: column;
+    }
+    .user-data{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .control{
+        justify-content: start;
+    }
 }

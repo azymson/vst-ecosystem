@@ -32,7 +32,7 @@ export default function DispatchPage() {
                     .then(e => {
                         setHistory(JSON.parse(e));
                     }),
-            1000
+            5000
         );
         return () => {
             clearInterval(interval);
@@ -44,7 +44,7 @@ export default function DispatchPage() {
                 sendRequest("https://imbgroup.uz/get-dispatch-list.php", "POST").then((response) => {
                     return setUncheckedOrders(JSON.parse(response));
                 }),
-            1000
+            5000
         );
         return () => {
             clearInterval(interval);

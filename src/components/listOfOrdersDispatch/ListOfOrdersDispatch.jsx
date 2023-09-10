@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import useHTTP from "../../hooks/useWeb";
 import "./listOfordersDispatch.css";
 import Timer from "../timer/Timer";
+import customAlert from "../../hooks/useAlert";
 //eslint-disable-next-line
-export default function ListOfOrdersDispatch({header,url,download,clickFunc,selectable,payload}) {
+export default function ListOfOrdersDispatch({ header, url, download, clickFunc, selectable, payload }) {
     const { sendRequest } = useHTTP();
     const [arrayOforders, setArrayOforders] = useState([]);
     const [selectedElement, setSelectedElement] = useState();
@@ -71,11 +72,11 @@ export default function ListOfOrdersDispatch({header,url,download,clickFunc,sele
                 <tbody>
                     {/*eslint-disable-next-line*/}
                     <tr>
-                    <td>Buyurtma ID</td>
-                    <td>Qayerdan</td>
-                    <td>Qayerga</td>
-                    <td>So`rov statusi</td>
-                    <td>Qolgan vaqt</td>
+                        <td>Buyurtma ID</td>
+                        <td>Qayerdan</td>
+                        <td>Qayerga</td>
+                        <td>So`rov statusi</td>
+                        <td>Qolgan vaqt</td>
                     </tr>
                     {arrayOforders?.map((e, i) => (
                         <Order
@@ -96,10 +97,27 @@ export default function ListOfOrdersDispatch({header,url,download,clickFunc,sele
     );
 }
 //eslint-disable-next-line
-function Order({context,clickFunc,onSelect,selectedElement,id,selectable,}) {
+function Order({ context, clickFunc, onSelect, selectedElement, id, selectable, }) {
+    const [loading, setLoading] = useState(false)
+    const { sendRequest } = useHTTP();
+    
     function changeSelectedData() {
         clickFunc();
     }
+    const rejectFunction = (elem) => {
+        if (confirm("Tasdiqlaysizmi?")) {
+            setLoading(true);
+            sendRequest("https://imbgroup.uz/reject-request-dispatch.php", "POST", {
+                id: elem,
+                reject_latter: "So`rovni dispetcher qaytardi",
+            }).then((e) => {
+                customAlert(e, "success");
+                
+                setLoading(false);
+            });
+        }
+    };
+    
     const status = {
         0: "To`ldirilshi kutilmoqda",
         1: "Tekshirilishi kutilmoqda",
@@ -141,9 +159,20 @@ function Order({context,clickFunc,onSelect,selectedElement,id,selectable,}) {
                 })
                 .map(([, i]) => (
                     //eslint-disable-next-line
-                    <td className="timer-stroke" key={context.id}>
-                        <Timer startTime={i} />
-                    </td>
+                    <>
+                        <td className="timer-stroke" key={context.id}>
+                            <Timer startTime={i} />
+                        </td>
+                        <td onClick={() => rejectFunction(context.id)} className="delete-button">{(!loading) ?
+                            <div>
+                                <i className="fi fi-rr-refresh"></i>
+
+                            </div> :
+                            <div>
+                                <i className="fi fi-rr-loading"></i>
+                            </div>}
+                        </td>
+                    </>
                 ))}
         </tr>
     );

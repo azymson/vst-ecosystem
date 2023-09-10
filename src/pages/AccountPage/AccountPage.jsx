@@ -23,32 +23,35 @@ export default function AccountPage() {
     const [func7, setFunc7] = useState(false);
     const [func8, setFunc8] = useState(false);
     const [func9, setFunc9] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [arrayOfOrders, setArrayOfOrders] = useState([]);
+    const [newCode, setNewCode] = useState("");
     //eslint-disable-next-line
     useEffect(() => getListOfAccounts(), []);
 
     const createAccount = () => {
         let answer = true;
-        if(name.length === 0){
+        if (name.length === 0) {
             customAlert("Ism bo'sh bo'lishi mumkin emas");
             answer = false;
         }
-        if(secondName.length === 0){
+        if (secondName.length === 0) {
             customAlert("Familiya bo'sh bo'lishi mumkin emas");
             answer = false;
         }
-        if(newLogin.length < 6){
+        if (newLogin.length < 6) {
             customAlert("Login uzunligi 6 ta belgidan kam bo'lishi mumkin emas");
             answer = false;
         }
-        if(newPassword.length < 6){
+        if (newPassword.length < 6) {
             customAlert("Parol uzunligi 6 ta belgidan kam bo'lishi mumkin emas");
             answer = false;
         }
-        if(newPassword !== newPassword2){
-            customAlert("Parollar mos kelmayapti")
+        if (newPassword !== newPassword2) {
+            customAlert("Parollar mos kelmayapti");
             answer = false;
         }
-        
+
         if (answer)
             sendRequest("https://imbgroup.uz/create-account.php", "POST", {
                 name: name,
@@ -66,20 +69,22 @@ export default function AccountPage() {
                     func6,
                     func7,
                     func8,
-                    func9
-                }
-            }).then(e => {
-                if(e.split(" ")[0] === "Duplicate"){
+                    func9,
+                },codes: arrayOfOrders
+            }).then((e) => {
+                console.log(e);
+                if (e.split(" ")[0] === "Duplicate") {
                     customAlert("Bunday login mavjud");
-                }else{
+                } else {
                     customAlert(e, "success");
                 }
-                sendRequest("https://imbgroup.uz/get-all-user.php", "POST")
-                    .then(e => {
+                sendRequest("https://imbgroup.uz/get-all-user.php", "POST").then(
+                    (e) => {
                         setArrayOfUsers(JSON.parse(e));
-                    })
+                    }
+                );
             });
-    }
+    };
 
     const editAccount = () => {
         sendRequest("https://imbgroup.uz/edit-account.php", "POST", {
@@ -98,41 +103,39 @@ export default function AccountPage() {
                 func6,
                 func7,
                 func8,
-                func9
-            }
+                func9,
+            },
+            codes: arrayOfOrders
         }).then((response) => {
+            
             customAlert(response, "success");
             console.log(response);
-            sendRequest("https://imbgroup.uz/get-all-user.php", "POST")
-                    .then(e => {
-                        setArrayOfUsers(JSON.parse(e));
-                    })
+            sendRequest("https://imbgroup.uz/get-all-user.php", "POST").then((e) => {
+                setArrayOfUsers(JSON.parse(e));
+            });
         });
-    }
+    };
 
     const getListOfAccounts = () => {
-        sendRequest("https://imbgroup.uz/get-all-user.php", "POST")
-            .then(e => {
-                setArrayOfUsers(JSON.parse(e));
-            })
-    }
+        sendRequest("https://imbgroup.uz/get-all-user.php", "POST").then((e) => {
+            setArrayOfUsers(JSON.parse(e));
+        });
+    };
     const deleteAccount = (login) => {
-
         sendRequest("https://imbgroup.uz/delete-account.php", "POST", {
-            new_login: login
-        }).then(e => {
+            new_login: login,
+        }).then((e) => {
             customAlert(e, "success");
-            sendRequest("https://imbgroup.uz/get-all-user.php", "POST")
-                .then(e => {
-                    setArrayOfUsers(JSON.parse(e));
-                })
-        })
-    }
+            sendRequest("https://imbgroup.uz/get-all-user.php", "POST").then((e) => {
+                setArrayOfUsers(JSON.parse(e));
+            });
+        });
+    };
 
     const setRecivedData = ({ name, second_name, login }) => {
         sendRequest("https://imbgroup.uz/get-functions.php", "POST", {
-            selectedId: login
-        }).then(response => {
+            selectedId: login,
+        }).then((response) => {
             setFunc0(false);
             setFunc1(false);
             setFunc2(false);
@@ -144,105 +147,253 @@ export default function AccountPage() {
             setFunc8(false);
             setFunc9(false);
             const data = JSON.parse(response);
-            data.map(e => e.prev).forEach((e) => {
-                switch (e) {
-                    case '0': setFunc0(true); break;
-                    case '1': setFunc1(true); break;
-                    case '2': setFunc2(true); break;
-                    case '3': setFunc3(true); break;
-                    case '4': setFunc4(true); break;
-                    case '5': setFunc5(true); break;
-                    case '6': setFunc6(true); break;
-                    case '7': setFunc7(true); break;
-                    case '8': setFunc8(true); break;
-                    case '9': setFunc9(true); break;
-                }
-            })
+            data
+                .map((e) => e.prev)
+                .forEach((e) => {
+                    switch (e) {
+                        case "0":
+                            setFunc0(true);
+                            break;
+                        case "1":
+                            setFunc1(true);
+                            break;
+                        case "2":
+                            setFunc2(true);
+                            break;
+                        case "3":
+                            setFunc3(true);
+                            break;
+                        case "4":
+                            setFunc4(true);
+                            break;
+                        case "5":
+                            setFunc5(true);
+                            break;
+                        case "6":
+                            setFunc6(true);
+                            break;
+                        case "7":
+                            setFunc7(true);
+                            break;
+                        case "8":
+                            setFunc8(true);
+                            break;
+                        case "9":
+                            setFunc9(true);
+                            break;
+                    }
+                });
         });
-
+        sendRequest("https://imbgroup.uz/code-list-id.php", "POST",{
+            logins:login
+        }).then(
+            (e) => {
+                console.log(e);
+                // setArrayOfOrders(JSON.parse(e));
+                setArrayOfOrders(JSON.parse(e).map(z=>z.code));
+            }
+        );
         setName(name);
         setSecondName(second_name);
         setNewLogin(login);
-        setMode("edit")
-    }
+        setMode("edit");
+    };
     return (
         <>
             <Header></Header>
             <main className="account-page">
                 <div className="heading">Yangi akkaunt</div>
                 <div className="border add-accaunt">
-                    <input type="text" value={newLogin} onChange={e => setNewLogin(e.target.value)} placeholder="login" />
-                    <input type="text" value={newPassword} placeholder="parol" onChange={e => setNewPassword(e.target.value)} />
-                    <input type="text" value={newPassword2}  onChange={e => setNewPassword2(e.target.value)} placeholder="parolni tasdiqlang" />
+                    <input
+                        type="text"
+                        value={newLogin}
+                        onChange={(e) => setNewLogin(e.target.value)}
+                        placeholder="login"
+                    />
+                    <input
+                        type="text"
+                        value={newPassword}
+                        placeholder="parol"
+                        onChange={(e) => setNewPassword(e.target.value)}
+                    />
+                    <input
+                        type="text"
+                        value={newPassword2}
+                        onChange={(e) => setNewPassword2(e.target.value)}
+                        placeholder="parolni tasdiqlang"
+                    />
                     <div className="row">
-                        <input type="text" placeholder="Ism" value={name} onChange={e => setName(e.target.value)} />
-                        <input type="text" placeholder="Familiya" value={secondName} onChange={e => setSecondName(e.target.value)} />
+                        <input
+                            type="text"
+                            placeholder="Ism"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Familiya"
+                            value={secondName}
+                            onChange={(e) => setSecondName(e.target.value)}
+                        />
                     </div>
                     <div className="border priveileges p-20">
                         <label className="priveilege">
-                            <input checked={func0} onChange={e => setFunc0(e.target.checked)} type="checkbox" id="privilege_request" />
+                            <input
+                                checked={func0}
+                                onChange={(e) => setFunc0(e.target.checked)}
+                                type="checkbox"
+                                id="privilege_request"
+                            />
                             So`rov ochish
                         </label>
                         <label className="priveilege">
-                            <input checked={func1} onChange={e => setFunc1(e.target.checked)} type="checkbox" id="privilege_request" />
+                            <input
+                                checked={func1}
+                                onChange={(e) => setFunc1(e.target.checked)}
+                                type="checkbox"
+                                id="privilege_request"
+                            />
                             So`rov to`ldirish
                         </label>
                         <label className="priveilege">
-                            <input checked={func2} onChange={e => setFunc2(e.target.checked)} type="checkbox" id="privilege_request" />
+                            <input
+                                checked={func2}
+                                onChange={(e) => setFunc2(e.target.checked)}
+                                type="checkbox"
+                                id="privilege_request"
+                            />
                             So`rov analiz
                         </label>
                         <label className="priveilege">
-                            <input checked={func3} onChange={e => setFunc3(e.target.checked)} type="checkbox" id="privilege_request" />
+                            <input
+                                checked={func3}
+                                onChange={(e) => setFunc3(e.target.checked)}
+                                type="checkbox"
+                                id="privilege_request"
+                            />
                             Reyestr
                         </label>
                         <label className="priveilege">
-                            <input checked={func4} onChange={e => setFunc4(e.target.checked)} type="checkbox" id="privilege_request" />
+                            <input
+                                checked={func4}
+                                onChange={(e) => setFunc4(e.target.checked)}
+                                type="checkbox"
+                                id="privilege_request"
+                            />
                             Qaytarib yuborilganlar
                         </label>
                         <label className="priveilege">
-                            <input checked={func5} onChange={e => setFunc5(e.target.checked)} type="checkbox" id="privilege_request" />
+                            <input
+                                checked={func5}
+                                onChange={(e) => setFunc5(e.target.checked)}
+                                type="checkbox"
+                                id="privilege_request"
+                            />
                             Dispetcherlik
                         </label>
                         <label className="priveilege">
-                            <input checked={func6} onChange={e => setFunc6(e.target.checked)} type="checkbox" id="privilege_request" />
+                            <input
+                                checked={func6}
+                                onChange={(e) => setFunc6(e.target.checked)}
+                                type="checkbox"
+                                id="privilege_request"
+                            />
                             Akkaunt menedjer
                         </label>
                         <label className="priveilege">
-                            <input checked={func7} onChange={e => setFunc7(e.target.checked)} type="checkbox" id="privilege_request" />
+                            <input
+                                checked={func7}
+                                onChange={(e) => setFunc7(e.target.checked)}
+                                type="checkbox"
+                                id="privilege_request"
+                            />
                             Dispetcherlar nazorati
                         </label>
                         <label className="priveilege">
-                            <input checked={func8} onChange={e => setFunc8(e.target.checked)} type="checkbox" id="privilege_request" />
-                            Fors major
+                            <input
+                                checked={func8}
+                                onChange={(e) => setFunc8(e.target.checked)}
+                                type="checkbox"
+                                id="privilege_request"
+                            />
+                            Status
                         </label>
                         <label className="priveilege">
-                            <input checked={func9} onChange={e => setFunc9(e.target.checked)} type="checkbox" id="privilege_request" />
+                            <input
+                                checked={func9}
+                                onChange={(e) => setFunc9(e.target.checked)}
+                                type="checkbox"
+                                id="privilege_request"
+                            />
                             Lokatsiya
                         </label>
                     </div>
-                    {(mode === "create") ?
+                    {func0 ? (
+                        <div className="border p-20">
+                            <div className="mb-20">Kodlar</div>
+                            <div className="div mb-20">
+                                <input type="text" value={newCode} onChange={elem=>setNewCode(elem.target.value)}/>
+                                <button onClick={()=>{
+                                            if(newCode !== "" && !arrayOfOrders.includes(newCode)){
+                                                setArrayOfOrders([...arrayOfOrders, newCode])
+                                            }
+                                        }}>
+                                    <i className="fi fi-rr-plus"></i>
+                                </button>
+                            </div>
+                            <div className="row">
+                                {
+                                    <div className="codes">
+                                        {arrayOfOrders.map((e, k) => (
+                                            <div key={k} className="code p-20 border">
+                                                <div className="code-heading">{e}</div>{" "}
+                                                <i className="fi fi-rr-cross" 
+                                                onClick={()=>setArrayOfOrders(arrayOfOrders.filter(x=>x!==e))}
+                                                ></i>
+                                            </div>
+                                        ))}
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    ) : null}
+                    {mode === "create" ? (
                         <button onClick={createAccount}>Yangi akkaunt qo`shish</button>
-                        : <div className="row">
+                    ) : (
+                        <div className="row">
                             <button onClick={editAccount}>Akkaunt tahrirlash</button>
                             <button onClick={() => setMode("create")}>Orqaga qaytish</button>
                         </div>
-                    }
+                    )}
                 </div>
                 <div className="list-of-users mt-20 border p-20">
-                    {arrayOfUsers.map((e, i) =>
+                    {arrayOfUsers.map((e, i) => (
                         <div className="border p-20 mb-20 user-data" key={i}>
                             <div className="user">
-                                <div className="username"><img src="https://imbgroup.uz/img/HQwHI.jpg" alt="" width={40} height={40}/></div>
+                                <div className="username border">
+                                    <img
+                                        src={e.image}
+                                        alt=""
+                                        width={40}
+                                        height={40}
+                                    />
+                                </div>
                                 <div className="fullname">{e.name + " " + e.second_name}</div>
                             </div>
                             <div className="control">
-                                <button className="edit" onClick={() => setRecivedData(e)}><i className="fi fi-rr-pencil"></i></button>
-                                <button className="delete" onClick={() => deleteAccount(e.login)}><i className="fi fi-rr-trash"></i></button>
+                                <button className="edit" onClick={() => setRecivedData(e)}>
+                                    <i className="fi fi-rr-pencil"></i>
+                                </button>
+                                <button
+                                    className="delete"
+                                    onClick={() => deleteAccount(e.login)}
+                                >
+                                    <i className="fi fi-rr-trash"></i>
+                                </button>
                             </div>
                         </div>
-                    )}
+                    ))}
                 </div>
-
             </main>
         </>
     );

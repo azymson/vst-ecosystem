@@ -19,6 +19,7 @@ export default function RequestPage() {
     const [loading, setLoading] = useState(false);
     const [arrayOforders, setArrayOforders] = useState([]);
     const [score, setScore] = useState(0);
+    const [codes, setCodes] = useState([105, 116])
 
     const firmCodeRef = useRef(null);
     const selectedFromPlaceRef = useRef(null);
@@ -28,9 +29,15 @@ export default function RequestPage() {
     const commentRef = useRef(null);
     const submitRef = useRef(null);
 
-    
+    useEffect(()=>{
+        sendRequest("https://imbgroup.uz/code-list.php","POST")
+            .then(e=>{
+                console.log(e);
+                setCodes(JSON.parse(e).map(e=>e.code));
+            })
+    },[])
     useEffect(() => {
-        firmCodeRef.current.focus();
+        firmCodeRef.current?.focus();
     }, []);
     useEffect(() => {
         const interval = setInterval(
@@ -62,7 +69,7 @@ export default function RequestPage() {
 
     function handleKeyPress(event, nextInputRef) {
         if (event.key === 'Enter') {
-            nextInputRef.current.focus();
+            nextInputRef.current?.focus();
         }
     };
 
@@ -129,7 +136,87 @@ export default function RequestPage() {
         }
 
     }
-
+    function customFrom() {
+        switch (firmCode) {
+            case "101": return <select onChange={(e) => setSelectedFromPlace(e.target.value)}>
+                <option option disabled selected>Yonalishlar</option>
+                <option value="Bektemir">Bektemir</option>
+                <option value="F Toshkent">Family</option>
+            </select>
+            case "102": return <select onChange={(e) => setSelectedFromPlace(e.target.value)}>
+                <option disabled selected>Yonalishlar</option>
+                <option value="Samarqand">Samarqand</option>
+                <option value="Shaxrisabz">Shaxrisabz</option>
+                <option value="Toshkent">Toshkent</option>
+                <option value="Urganch">Urganch</option>
+                <option value="Xorazm">Xorazm</option>
+            </select>
+            case "105": return <select onChange={(e) => setSelectedFromPlace(e.target.value)}>
+                <option disabled selected>Yonalishlar</option>
+                <option value="Xonobod">Xonobod</option>
+                <option value="Qumariq">Qumariq</option>
+                <option value="G`azalkent">G'azalkent</option>
+            </select>
+            case "116": return <select onChange={(e) => setSelectedFromPlace(e.target.value)}>
+            <option disabled selected>Yonalishlar</option>
+            <option value="Xonobod">Xonobod</option>
+            <option value="Qumariq">Qumariq</option>
+            <option value="G`azalkent">G'azalkent</option>
+            </select>
+            case "301": return <select onChange={(e) => setSelectedFromPlace(e.target.value)}>
+                <option disabled selected>Yonalishlar</option>
+                <option value="Urganch" >Urganch</option>
+                <option value="Namangan" >Namangan</option>
+            </select>
+            case "201": return <select onChange={(e) => setSelectedFromPlace(e.target.value)}>
+                <option disabled selected>Yonalishlar</option>
+                <option value="Andijon" >Andijon</option>
+                <option value="Buxoro" >Buxoro</option>
+                <option value="Chiroqchi" >Chiroqchi</option>
+                <option value="Fargona" >Farg'ona</option>
+                <option value="Jizzax" >Jizzax</option>
+                <option value="Denov" >Denov</option>
+                <option value="Kitob" >Kitob</option>
+                <option value="Namangan" >Namangan</option>
+                <option value="Navoiy" >Navoiy</option>
+                <option value="Ohangaron" >Ohangaron</option>
+                <option value="Pop" >Pop</option>
+                <option value="Qarshi" >Qarshi</option>
+                <option value="Qoqon" >Qo'qon</option>
+                <option value="Samarqand" >Samarqand</option>
+                <option value="Sirdaryo" >Sirdaryo</option>
+                <option value="Toshkent" >Toshkent</option>
+                <option value="Urgench" >Urgench</option>
+                <option value="Yangiyo`l" >Yangiyo'l</option>
+                <option value="Zarafshon">Zarafshon</option>
+                <option value="Chirchiq">Chirchiq</option>
+            </select>
+            default: return <EditablePopup
+                Ref={selectedFromPlaceRef}
+                heading={"Qayerdan"}
+                onKeyDown={(event) => { { if (event.key === 'Enter') selectedToPlaceRef.current?.focus() } }}
+                onSelectfunc={setSelectedFromPlace}
+            />
+        }
+    }
+    function filterCode(){
+        if(codes.length === 0){
+            return    <input
+            type="text"
+            value={firmCode}
+            onChange={(e) => setFirmCode(e.target.value)}
+            placeholder="Firma kodi"
+            ref={firmCodeRef}
+            onKeyDown={(event) => { if (event.key === 'Enter') handleKeyPress(event, selectedFromPlaceRef) }}
+        />
+        }else{
+            return <select onChange={(d)=>setFirmCode(d.target.value)}> 
+                <option selected disabled>Kodni tanlang</option>
+                {codes.map((e,i)=><option key={i}>{e}</option>)}
+            </select>
+        }
+        
+    }
     return (
         <>
             <Header />
@@ -141,17 +228,9 @@ export default function RequestPage() {
                 </div>
                 <div className="request-page__form border" onSubmit={submitForm}>
                     Yangi sorov ochish
-                    <input
-                        type="text"
-                        value={firmCode}
-                        onChange={(e) => setFirmCode(e.target.value)}
-                        placeholder="Firma kodi"
-                        ref={firmCodeRef}
-                        onKeyDown={(event) => { if (event.key === 'Enter') handleKeyPress(event, selectedFromPlaceRef) }}
-                    />
-                    
+                    {filterCode()}
                     <div className="row">
-                        {(firmCode === "101")?
+                        {/* {(firmCode === "101")?
                         <select onChange={(e)=>setSelectedFromPlace(e.target.value)}>
                             <option value="Toshkent">Bektemir</option>
                             <option value="F Toshkent">Family</option>
@@ -159,14 +238,17 @@ export default function RequestPage() {
                         <EditablePopup
                             Ref={selectedFromPlaceRef}
                             heading={"Qayerdan"}
-                            onKeyDown={(event) => { { if (event.key === 'Enter') selectedToPlaceRef.current.focus() } }}
+                            onKeyDown={(event) => { { if (event.key === 'Enter') selectedToPlaceRef.current?.focus() } }}
                             onSelectfunc={setSelectedFromPlace}
-                        />}
+                        />} */}
+                        {
+                            customFrom()
+                        }
                         <EditablePopup
                             Ref={selectedToPlaceRef}
                             heading={"Qayerga"}
                             onSelectfunc={setSelectedToPlace}
-                            onKeyDown={(event) => { { if (event.key === 'Enter') carCountRef.current.focus() } }}
+                            onKeyDown={(event) => { { if (event.key === 'Enter') carCountRef.current?.focus() } }}
                         />
                     </div>
                     <input
@@ -174,28 +256,23 @@ export default function RequestPage() {
                         value={carCount}
                         ref={carCountRef}
                         onChange={(e) => setCarCount(e.target.value)}
-                        onKeyDown={(event) => { if (event.key === 'Enter') { commentRef.current.focus() } }}
+                        onKeyDown={(event) => { if (event.key === 'Enter') { commentRef.current?.focus() } }}
                         placeholder="Mashina soni"
                     />
                     <input
                         type="text"
                         value={comment}
                         ref={commentRef}
-                        onKeyDown={(event) => { if (event.key === 'Enter') { selectedDateRef.current.focus() } }}
+                        onKeyDown={(event) => { if (event.key === 'Enter') { selectedDateRef.current?.focus() } }}
                         placeholder="Qoshimch malumot"
                         onChange={(e) => setComment(e.target.value)}
                     />
-                    <input
-                        type="text"
-                        value={score}
-                        placeholder="ball"
-                        onChange={(e) => setScore(e.target.value)}
-                    />
+                    
                     <input
                         type="date"
                         ref={selectedDateRef}
                         value={selectedDate}
-                        onKeyDown={(event) => { if (event.key === 'Enter') { submitRef.current.focus() } }}
+                        onKeyDown={(event) => { if (event.key === 'Enter') { submitRef.current?.focus() } }}
                         onChange={(e) => setSelectedData(e.target.value)}
                     />
                     <button onClick={(!loading) ? validate : null} ref={submitRef}>

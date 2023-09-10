@@ -11,7 +11,8 @@ export default function ListOfOrdersNext({
     arrayOforders,
     refresh,
     setSelect,
-    select
+    select,
+    rejectable
 }) {
     /*eslint-disable*/
     const arrayOfHeaders = {
@@ -93,6 +94,7 @@ export default function ListOfOrdersNext({
                         selectable={selectable}
                         deletable={deletable}
                         refresh={refresh}
+                        rejectable={rejectable}
                     /></>
                     ))}
                 </tbody>

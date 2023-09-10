@@ -78,7 +78,7 @@ export default function HomePage() {
                             <h4>Dispetcherlar bo’limi</h4>
                         </div>
                     </Link>}
-                    {(!table.includes("3")) ? null : <Link to={"/status"}>
+                    {(!table.includes("8")) ? null : <Link to={"/status"}>
                         <div className="box">
                             <h2>
                                 <i className="fi fi-rr-eye"></i>

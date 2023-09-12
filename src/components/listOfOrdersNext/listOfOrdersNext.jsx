@@ -34,6 +34,7 @@ export default function ListOfOrdersNext({
         dispatcher: "Dispetcher",
         reject_comment: "Qaytarish sababi",
         fio: "FIO",
+        request_time: "So'rov vaqti"
     };
     const [selectedElement, setSelectedElement] = useState();
 

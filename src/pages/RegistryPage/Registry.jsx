@@ -188,6 +188,7 @@ export default function RegistryPage() {
                                 onKeyDown={e => (e.key === "Enter") ? carNameRef.current.focus() : null}
                             >
                                 <option value="TENT">TENT</option>
+                                <option value="CONTAINER">CONTAINER</option>
                                 <option value="REF">REF</option>
                             </select>
                         </div>

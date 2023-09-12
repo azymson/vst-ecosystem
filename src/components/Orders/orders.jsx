@@ -42,7 +42,7 @@ export default function Order({
     const rejectFunction = (elem) => {
         let reject_latter = prompt("Sababi");
 
-        if(reject_latter){
+        if (reject_latter) {
             if (confirm("Tasdiqlaysizmi?")) {
                 setLoading(true);
                 const { sendRequest } = useHTTP();
@@ -54,13 +54,13 @@ export default function Order({
                     setLoading(false);
                     refresh();
                 });
-            }    
+            }
         }
         else customAlert("Sababi bo'lishi shart");
     };
     const cancelFunc = (elem) => {
         let reject_latter = prompt("Sababi");
-        if(reject_latter){
+        if (reject_latter) {
             if (confirm("Tasdiqlaysizmi?")) {
                 setLoading(true);
                 const { sendRequest } = useHTTP();
@@ -85,8 +85,21 @@ export default function Order({
                 if (key === "type") {
                     value = status[value];
                 }
-                if(value === "F Toshkent"){
+                if (value === "F Toshkent") {
                     value = "Family";
+                }
+                if (key === "request_time") {
+                    if (value !== null) {
+                        value = Date.now() - value;
+                        const seconds = Math.floor(value / 1000);
+
+                        const hours = Math.floor(seconds / 3600);
+                        const remainingSeconds = seconds % 3600;
+
+                        const minutes = Math.floor(remainingSeconds / 60);
+
+                        value = `${hours}:${minutes.toString().padStart(2, '0')}`;
+                    }
                 }
                 return <td key={nanoid()}>{value}</td>
             })}

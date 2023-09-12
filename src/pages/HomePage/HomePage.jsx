@@ -22,8 +22,9 @@ export default function HomePage() {
     }, [])
 
     return (
-        <>
+        <>  
             <Header></Header>
+            
             <main className="home-page p-20">
                 <div className="box-grid">
                     <div className="box account">

@@ -175,6 +175,7 @@ export default function AnalyzePage() {
                             value={supCarType}
                             onChange={(e) => setSupCarType(e.target.value)}
                             onKeyDown={e => (e.key === "Enter") ? ref3.current.focus() : null}>
+                            <option value="CONTAINER">CONTAINER</option>
                             <option value="TENT">TENT</option>
                             <option value="REF">REF</option>
                         </select>

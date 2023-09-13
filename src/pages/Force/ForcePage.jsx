@@ -58,7 +58,7 @@ export default function ForcePage() {
     return (
         <>
             <Header />
-            <main className="p-20 mt-70">
+            <main className="p-20 mt-70 force">
                 
                 <ListOfOrdersForce
                     select={select}

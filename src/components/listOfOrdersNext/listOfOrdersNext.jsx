@@ -1,6 +1,6 @@
 import {useState } from "react";
 import Order from "../Orders/orders";
-import "./listOfordersNext.css";
+// import "./listOfordersNext.css";
 /*eslint-disable*/
 export default function ListOfOrdersNext({
     header,
@@ -36,8 +36,9 @@ export default function ListOfOrdersNext({
         fio: "FIO",
         request_time: "So'rov vaqti"
     };
+    const style = { display: "flex", justifyContent:"space-between", alignItems: "center"};
     const [selectedElement, setSelectedElement] = useState();
-
+    
     
     const downloadButton = download ? (
         <i className="fi fi-rr-download downld-btn" onClick={downloadOnExcel}></i>
@@ -69,12 +70,11 @@ export default function ListOfOrdersNext({
         return <div className="order-list">{header} (Hozircha bo`sh)</div>;
 
     const tableHeader = Object.keys(arrayOforders[0]).map((e, i) => (
-        <td key={i}>{arrayOfHeaders[e]}</td>
+        <td  key={i}><div style={style} className="headers">{arrayOfHeaders[e]} <i class="fi fi-rr-angle-small-down"></i></div></td>
     ));
     
     return (
         <div className="order-list border">
-            
             <div className="row">
                 <p>{header}</p>
                 {downloadButton}

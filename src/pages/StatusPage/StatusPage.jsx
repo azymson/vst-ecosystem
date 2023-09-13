@@ -57,7 +57,7 @@ export default function StatusPage() {
     return (
         <>
             <Header />
-            <main className="p-20 mt-70">
+            <main className="p-20 mt-70 status-page">
                 <div className="border p-20 mb-20 row">
                     Sapkod
                     <input type="text" value={sapcode} onChange={e => setSapcode(e.target.value)} placeholder="Sapkod" />

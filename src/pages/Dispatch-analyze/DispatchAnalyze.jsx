@@ -30,7 +30,7 @@ export default function DispatchAnalyze() {
         <Header></Header>
         <main className="dispatch-analyze p-20 mt-70">
             <div className="mb-20">
-                <ListOfOrdersNext arrayOforders={requests}></ListOfOrdersNext>
+                <ListOfOrdersNext rejectable={true} arrayOforders={requests}></ListOfOrdersNext>
             </div>
             <div className="list-of-dispatchers">
                 {(visable) ? <div className="modal">
@@ -40,26 +40,28 @@ export default function DispatchAnalyze() {
                     </div>
                 </div> : null}
 
-                <table className="border">
-                    <tr>
-                        <td>Ism</td>
-                        <td>Qaytarilgan so`rovlar</td>
-                        <td>Aktiv so`rovlar</td>
-                        <td>Yakunlangan so`rovlar</td>
-                    </tr>
-
-                    {dispatchers.map(e => {
-                        return <tr className="dispatchers" key={e.id}>
-                            <td>{e.name}</td>
-                            <td>{e.reject}</td>
-                            <td>{e.current}</td>
-                            <td>{e.success}</td>
-                            <td onClick={() => openModal(e.id)}>
-                                <i className="fi fi-rr-menu-burger"></i>
-                            </td>
+                <div className="border p-20">
+                    <table>
+                        <tr>
+                            <td>Ism</td>
+                            <td>Qaytarilgan so`rovlar</td>
+                            <td>Aktiv so`rovlar</td>
+                            <td>Yakunlangan so`rovlar</td>
                         </tr>
-                    })}
-                </table>
+
+                        {dispatchers.map(e => {
+                            return <tr className="dispatchers" key={e.id}>
+                                <td>{e.name}</td>
+                                <td>{e.reject}</td>
+                                <td>{e.current}</td>
+                                <td>{e.success}</td>
+                                <td onClick={() => openModal(e.id)}>
+                                    <i className="fi fi-rr-menu-burger"></i>
+                                </td>
+                            </tr>
+                        })}
+                    </table>
+                </div>
             </div>
         </main>
     </>

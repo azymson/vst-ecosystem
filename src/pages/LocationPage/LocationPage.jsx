@@ -44,7 +44,6 @@ export default function LocationPage(){
                     <select value={type} onChange={(e) => { setType(e.target.value) }}>
                         <option value="4">Yuklab chiqdi</option>
                         <option value="5">Lokatsiya berildi</option>
-                        <option value="6">Zavodga yetib keldi</option>
                         <option value="7">Finish</option>
                     </select>
                     <button onClick={editSelectedData}>{(!loading1) ? "O`zgartirish" : "Jon`atilmoqda"}</button>

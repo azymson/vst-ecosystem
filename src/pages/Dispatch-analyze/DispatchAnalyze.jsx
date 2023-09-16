@@ -55,6 +55,7 @@ export default function DispatchAnalyze() {
                                 <td>{e.reject}</td>
                                 <td>{e.current}</td>
                                 <td>{e.success}</td>
+
                                 <td onClick={() => openModal(e.id)}>
                                     <i className="fi fi-rr-menu-burger"></i>
                                 </td>

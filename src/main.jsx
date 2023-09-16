@@ -16,6 +16,7 @@ import StatusPage from './pages/StatusPage/StatusPage';
 import DispatchAnalyze from './pages/Dispatch-analyze/DispatchAnalyze';
 import LocationPage from './pages/LocationPage/LocationPage';
 import ForcePage from './pages/Force/ForcePage';
+import CashPage from './pages/CashPage/CashPage';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     
@@ -34,6 +35,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route element={<DispatchAnalyze/>} path={"/dispatch-analyze"}/>
         <Route element={<LocationPage/>} path={"/location"}/>
         <Route element={<ForcePage/>} path={"/force"}/>
+        <Route element={<CashPage/>} path={"/cash"}/>
         <Route path='*' element={<div>404 Not found</div>}></Route>
 
       </Routes>

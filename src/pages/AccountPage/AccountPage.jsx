@@ -23,6 +23,8 @@ export default function AccountPage() {
     const [func7, setFunc7] = useState(false);
     const [func8, setFunc8] = useState(false);
     const [func9, setFunc9] = useState(false);
+    const [func10, setFunc10] = useState(false);
+
     const [loading, setLoading] = useState(false);
     const [arrayOfOrders, setArrayOfOrders] = useState([]);
     const [newCode, setNewCode] = useState("");
@@ -70,6 +72,7 @@ export default function AccountPage() {
                     func7,
                     func8,
                     func9,
+                    func10
                 },codes: arrayOfOrders
             }).then((e) => {
                 console.log(e);
@@ -104,6 +107,7 @@ export default function AccountPage() {
                 func7,
                 func8,
                 func9,
+                func10,
             },
             codes: arrayOfOrders
         }).then((response) => {
@@ -146,6 +150,7 @@ export default function AccountPage() {
             setFunc7(false);
             setFunc8(false);
             setFunc9(false);
+            setFunc10(false);
             const data = JSON.parse(response);
             data
                 .map((e) => e.prev)
@@ -181,6 +186,8 @@ export default function AccountPage() {
                         case "9":
                             setFunc9(true);
                             break;
+                        case "10":
+                            setFunc10(true)
                     }
                 });
         });
@@ -327,8 +334,17 @@ export default function AccountPage() {
                             />
                             Lokatsiya
                         </label>
+                        <label className="priveilege">
+                            <input
+                                checked={func10}
+                                onChange={(e) => setFunc10(e.target.checked)}
+                                type="checkbox"
+                                id="privilege_request"
+                            />
+                            Pul tarqatish
+                        </label>
                     </div>
-                    {func0 ? (
+                    {func0||func8 ? (
                         <div className="border p-20">
                             <div className="mb-20">Kodlar</div>
                             <div className="div mb-20">

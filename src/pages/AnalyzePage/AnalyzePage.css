@@ -2,7 +2,7 @@
     padding: 20px;
     margin-top: 70px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 50%;
     grid-template-rows: 1fr 100px;
     grid-gap: 20px;
 }
@@ -34,6 +34,16 @@
 }
 @media (max-width: 1600px) {
     .analyze-page{
+        display: flex;
+        flex-direction: column;
+    }
+    
+}
+@media (max-width: 504px) {
+    .row{
+        flex-direction: column;
+    }
+    .reject-grid{
         display: flex;
         flex-direction: column;
     }

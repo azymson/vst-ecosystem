@@ -18,7 +18,7 @@ export default function StatusPage() {
         sendRequest("https://imbgroup.uz/get-registery.php", "POST").then(
             (response) => {
                 setArrayOfOrders(JSON.parse(response));
-                console.log(response);
+                
             }
         );
         //eslint-disable-next-line
@@ -120,6 +120,7 @@ export default function StatusPage() {
                     Status
                     <select value={type} onChange={(e) => { setType(e.target.value) }}>
                         <option value="2">Start</option>
+                        <option value="6">Zavodga yetib keldi</option>
                         <option value="4">Yuklab chiqdi</option>
                     </select>
                     <button onClick={editSelectedData}>{(!loading1) ? "O`zgartirish" : "Jon`atilmoqda"}</button>

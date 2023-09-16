@@ -133,6 +133,15 @@ export default function HomePage() {
                             <h4>Noodatiy holatlar</h4>
                         </div>
                     </Link>}
+                    {(!table.includes("10")) ? null :<Link to={"/cash"}>
+                        <div className="box">
+                            <h2>
+                                <i className="fi fi-rr-coins"></i>
+                            </h2>
+                            <h3>Pul tarqatish</h3>
+                            <h4>Pul tarqatish bo`limi</h4>
+                        </div>
+                    </Link>}
                 </div>
             </main>
         </>

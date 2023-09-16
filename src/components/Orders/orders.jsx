@@ -1,7 +1,6 @@
 import useHTTP from "../../hooks/useWeb";
 import customAlert from "../../hooks/useAlert";
 import { useState } from "react";
-import { nanoid } from "nanoid";
 /*eslint-disable*/
 export default function Order({
     context,
@@ -80,7 +79,7 @@ export default function Order({
 
     return (
         <tr className={styleSelected} onClick={changeSelectedData}>
-            <td>{id + 1}</td>
+            <td key={id + 1}>{id + 1}</td>
             {Object.entries(context).map(([key, value], i) => {
                 if (key === "type") {
                     value = status[value];
@@ -101,10 +100,10 @@ export default function Order({
                         value = `${hours}:${minutes.toString().padStart(2, '0')}`;
                     }
                 }
-                return <td key={nanoid()}>{value}</td>
+                return <td key={`${context.id}${key}`}>{value}</td>
             })}
             {(deletable) ?
-                <td onClick={() => cancelFunc(context.id)} className="delete-button">{(!loading) ?
+                <td onClick={() => cancelFunc(context.id)} key={`${context.id}delete`} className="delete-button">{(!loading) ?
                     <div>
                         <i className="fi fi-rr-trash"></i>
 
@@ -114,7 +113,7 @@ export default function Order({
                     </div>}
                 </td> : null}
             {(rejectable) ?
-                <td onClick={() => rejectFunction(context.id)} className="delete-button">{(!loading) ?
+                <td onClick={() => rejectFunction(context.id)} key={`${context.id}reject`} className="delete-button">{(!loading) ?
                     <div>
                         <i className="fi fi-rr-refresh"></i>
 

@@ -32,5 +32,17 @@
     width: 100%;
     max-height: 80vh;
     overflow: auto;
-    
+}
+.dispatch-analyze{
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    grid-gap: 20px;
+}
+.dispatch-analyze .nav{
+    display: flex;
+    flex-direction: column;
+    height: min-content;
+}
+.cursor-pointer{
+    cursor: pointer;
 }

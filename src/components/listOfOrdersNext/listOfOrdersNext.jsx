@@ -47,24 +47,35 @@ export default function ListOfOrdersNext({
     const [selectedElement, setSelectedElement] = useState();
     const [filters, setFilters] = useState([]);
     const [search, setSearch] = useState("");
+    const [filterState, setFilterState] = useState([]);
 
-    // useEffect(() => {
-    //     const newFilters = {};
+    useEffect(() => {
+        const newFilters = {};
     
-    //     arrayOforders.forEach((element) => {
-    //       for (const key in element) {
-    //         if (element.hasOwnProperty(key)) {
-    //           if (!newFilters[key]) {
-    //             newFilters[key] = [...new Set(arrayOforders.map((elem) => (elem[key])))];
-    //           }
-    //         }
-    //       }
-    //     });
-    //     setFilters(newFilters);
-    //   }, [arrayOforders]);
+        arrayOforders.forEach((element) => {
+          for (const key in element) {
+            if (element.hasOwnProperty(key)) {
+              if (!newFilters[key]) {
+                newFilters[key] = [...new Set(arrayOforders.map((elem) => (elem[key])))];
+              }
+            }
+          }
+        });
+        setFilters(newFilters);
+      }, [arrayOforders]);
+    useEffect(()=>{
+        let obj = {};
+        Object.keys(filters).map(e=>{
+            return {[e]: filters[e]?.map(x=>({[x]:true}))}
+        }).forEach(e=>{
+            obj = {...obj, ...e}
+        })
+        setFilterState(obj);
+    },[arrayOforders]);
     // for(const e in filters){
     //     console.log(filters[e]?.map(e=>({[e]:true})))
     // }
+    
     const downloadButton = download ? (
         <i className="fi fi-rr-download downld-btn" onClick={downloadOnExcel}></i>
     ) : null;
@@ -92,29 +103,45 @@ export default function ListOfOrdersNext({
     }
 
     function filterData(arrayOfOrders){
-        return arrayOfOrders.filter(e=>Object.values(e).join(" ").toLowerCase().includes(search.toLowerCase()));
+        arrayOfOrders = arrayOfOrders.filter(e=>Object.values(e).join(" ").toLowerCase().includes(search.toLowerCase()))
+        // console.log(arrayOfOrders);
+        // arrayOfOrders = arrayOfOrders.filter(e=>{
+        //     let access = true;
+        //     Object.keys(e).forEach(val=>{
+        //         const arrayOfAccess = filterState[val]
+        //             ?.filter(elem=>Object.values(elem)[0])
+        //             ?.map(elem=>Object.keys(elem)[0])
+        //             // ?.forEach(elem=>console.log(elem));
+        //             if(e[val] === null) e[val] = "null";
+        //         access = arrayOfAccess?.includes(e[val]) && access;
+        //     })
+        //     return access;
+        // })
+        return arrayOfOrders;
     }
     if (arrayOforders.length === 0)
         return <div className="order-list">{header} (Hozircha bo`sh)</div>;
     const tableHeader = Object.keys(arrayOforders[0]).map((e, i) => {
         return (
-            <td key={i}>
-                <div style={style} className="headers">
-                    {arrayOfHeaders[e]} <i className="fi fi-rr-angle-small-down"></i>
-                    {/* <div className="filters border p-20">
-                        {filters[e]?.map(z => <label style={{display: "flex"}}>
-                                <input type="checkbox" checked/>{z}
-                            </label>)}
-                    </div> */}
-                </div>
-            </td>
-            // <Filter 
-            //     arrayOfHeaders={arrayOfHeaders} 
-            //     arrayOforders={arrayOforders}
-            //     style={style}
-            //     filters={filters}
-            //     keys={e}
-            // />
+            // <td key={i}>
+            //     <div style={style} className="headers">
+            //         {arrayOfHeaders[e]} <i className="fi fi-rr-angle-small-down"></i>
+            //         <div className="filters border p-20">
+            //             {filters[e]?.map(z => <label style={{display: "flex"}}>
+            //                     <input type="checkbox" checked/>{z}
+            //                 </label>)}
+            //         </div>
+            //     </div>
+            // </td>
+                <Filter 
+                    arrayOfHeaders={arrayOfHeaders} 
+                    arrayOforders={arrayOforders}
+                    style={style}
+                    filters={filters}
+                    keys={e}
+                    filterState={filterState}
+                    setFilterState={setFilterState}
+                />
             )
     });
 
@@ -127,9 +154,8 @@ export default function ListOfOrdersNext({
                 {downloadButton}
             </div>
 
-            <table style={{display: "block", widith: "100%"}}>
-                <tbody style={{display:"block",maxHeight:"100vh",overflow: "auto"}}>
-                    <tr style={{position:"sticky", top:0, backgroundColor:"white"}}>
+            <table style={{overflowX: "auto",maxWidth:"100%", display: "block", maxHeight:"90vh", minHeight:"200px"}}>
+                    <tr style={{position:"sticky", top:0, backgroundColor:"white", }}>
                         <td>№</td>
                         {tableHeader}
                         {(!rejectable)||<td>O</td>}
@@ -154,7 +180,7 @@ export default function ListOfOrdersNext({
                             />
                         </>
                     ))}
-                </tbody>
+
             </table>
         </div>
     );

@@ -100,7 +100,7 @@ export default function ListOfOrders({
         <div className="order-list border">
             <div className="row">
                 <p>{header}</p>
-                {!download ? (
+                {download ? (
                     <i
                         className="fi fi-rr-download downld-btn"
                         onClick={downloadOnExcel}

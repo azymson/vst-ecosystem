@@ -78,7 +78,7 @@ export default function Order({
     const styleSelected = context.id === selectedElement && selectable ? "order selected" : "order";
 
     return (
-        <tr className={styleSelected} onClick={changeSelectedData}>
+        <tr className={styleSelected} onClick={changeSelectedData} style={{width:"100%"}}>
             <td key={id + 1}>{id + 1}</td>
             {Object.entries(context).map(([key, value], i) => {
                 if (key === "type") {

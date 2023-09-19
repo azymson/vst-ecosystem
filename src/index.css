@@ -74,6 +74,9 @@ input[type="submit"] {
     border-radius: 10px;
     transition: 1s;
 }
+.ml-20{
+    margin-left: 20px;
+}
 input[type="submit"]:hover{
     box-shadow: 0 0 30px rgba(39, 151, 133, 0.575);    
     cursor: pointer;
@@ -115,6 +118,10 @@ input[type="submit"]:hover{
     position: absolute;
     background: white;
     top: 50px;
+    max-height: 200px;
+    overflow:auto;
+    gap: 10px 0px;
+    width: 100%;
 }
 
 @keyframes openmessage {

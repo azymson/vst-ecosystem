@@ -14,7 +14,11 @@ export default function DispatchAnalyze() {
 
 
     useEffect(() => {
-        sendRequest("https://imbgroup.uz/get-all-dispatchers.php", "POST").then(e => setDispatchers(JSON.parse(e)))
+        sendRequest("https://imbgroup.uz/get-all-dispatchers.php", "POST", 
+        {start:1693804659791, end:Date.now()})
+            .then(e => {setDispatchers(JSON.parse(e))
+            console.log(e);
+            })
     }, [])
     useEffect(() => {
         sendRequest("https://imbgroup.uz/get-all-request.php", "POST").then(e => setRequests(JSON.parse(e)))
@@ -24,10 +28,31 @@ export default function DispatchAnalyze() {
     return <>
         <Header></Header>
         <main className="dispatch-analyze p-20 mt-70">
-            <aside className="nav p-20 border">
-                <div className="cursor-pointer" onClick={()=>setCurrent("orders")}><i className="fi fi-rr-briefcase mr-20 "></i>Sorvolar</div>
-                <div className="cursor-pointer" onClick={()=>setCurrent("dispatch")}><i className="fi fi-rr-user mr-20 "></i>Dispetcherlar statistikasi</div>
+            <div>
+
+            <aside className="nav p-20 border mb-20">
+                <div className="cursor-pointer" onClick={() => setCurrent("orders")}><i className="fi fi-rr-briefcase mr-20 "></i>Sorvolar</div>
+                <div className="cursor-pointer" onClick={() => setCurrent("dispatch")}><i className="fi fi-rr-user mr-20 "></i>Dispetcherlar statistikasi</div>
             </aside>
+            
+            
+            {(current !== "dispatch") || <div className="row  border p-20">
+                    <div>
+                        <div className="mb-20">
+                            Start
+                        </div>
+                        <input type="date" />
+                    </div>
+                    <div>
+                        <div className="mb-20">
+
+                            Finish
+                        </div>
+                        <input type="date" />
+                    </div>
+                    <button>Ko`rsatish</button>
+                </div>}
+            </div>
             {(current !== "orders") || <div className="mb-20">
                 <ListOfOrdersNext rejectable={true} arrayOforders={requests}></ListOfOrdersNext>
             </div>}

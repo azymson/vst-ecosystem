@@ -46,3 +46,24 @@
 .cursor-pointer{
     cursor: pointer;
 }
+.row{
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    flex-direction: column;
+}
+.row div{
+    width: 100%;
+}
+.row input{
+    width: 100%;
+}
+@media (max-width:  1325px){
+    .dispatch-analyze{
+        display: flex;
+        flex-direction: column;
+    }
+    .list-of-dispatchers{
+        overflow: auto;
+    }
+}

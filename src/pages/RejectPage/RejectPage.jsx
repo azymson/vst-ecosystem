@@ -12,7 +12,7 @@ export default function RejectPage(){
 return <>
     <Header></Header>
     <main className="reject-page">
-        <ListOfOrders url={"https://imbgroup.uz/get-reject-list.php"} header={"Qaytarilganlar"}/>
+        <ListOfOrders url={"https://imbgroup.uz/get-reject-list.php"} download={true} header={"Qaytarilganlar"}/>
     </main>
     </>
 }

@@ -4,6 +4,7 @@ import "./ListOfOrdersForce.css";
 import OrderForce from "../OrdersForce/orders";
 import Filter from "../filter/filter";
 import { useEffect } from "react";
+import customAlert from "../../hooks/useAlert";
 /*eslint-disable*/
 export default function ListOfOrdersForce({
     header,
@@ -111,7 +112,7 @@ export default function ListOfOrdersForce({
         // })
         return arrayOfOrders;
     }
-    console.log(filterState);
+    
 
     if (arrayOforders.length === 0)
         return <div className="order-list">{header} (Hozircha bo`sh)</div>;
@@ -132,32 +133,33 @@ export default function ListOfOrdersForce({
 
     return (
         <div className="order-list border">
-            <input type="text" placeholder="Qidiruv" value={search} onChange={(e) => setSearch(e.target.value)} />
             <div className="row">
                 <p>{header}</p>
                 {downloadButton}
             </div>
 
-            <table style={{ position: "relative" }}>
+            <table >
+            {/* style={{ position: "relative", height: "calc(100vh - 300px)",overflow:"auto" ,display:"block",overflowX:"hidden"}} */}
                 <tbody>
-                    <tr style={{ position: "sticky" }}><td>№</td>{tableHeader}</tr>
+                    <tr style={{ position: "sticky", top:0 , background:"white"}}><td>№</td>{tableHeader}</tr>
 
                     {filterData(arrayOforders)?.map((e, i) => (
                         <><OrderForce
                             key={i}
                             context={e}
-                            clickFunc={() => clickFunc !== undefined ? clickFunc(e) : () => { }}
+                            // clickFunc={() => clickFunc !== undefined ? clickFunc(e) : () => { }}
                             onSelect={() => setSelect(e.id)}
                             selectedElement={select}
                             id={i}
                             selectable={selectable}
                             deletable={deletable}
                             refresh={refresh}
+                            clickFunc={()=>{window.location.href = `./force/${e.id}`}}
                         /></>
                     ))}
                 </tbody>
             </table>
-
+            
         </div>
     );
 }

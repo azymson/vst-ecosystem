@@ -154,3 +154,6 @@ input[type="submit"]:hover{
     padding-left: 0;
     color: rgb(70, 70, 70);
 }
+.o-auto{
+    overflow: auto;
+}

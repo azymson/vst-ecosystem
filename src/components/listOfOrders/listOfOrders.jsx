@@ -39,7 +39,7 @@ export default function ListOfOrders({
     //eslint-disable-next-line
 
     function downloadOnExcel() {
-        fetch("https://imbgroup.uz/get-list-excel.php", {
+        fetch("https://imbgroup.uz/get-list-reject-excel.php", {
             method: "POST",
             body: JSON.stringify({
                 login: localStorage.getItem("login"),

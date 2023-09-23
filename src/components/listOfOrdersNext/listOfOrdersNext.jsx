@@ -15,6 +15,7 @@ export default function ListOfOrdersNext({
     setSelect,
     select,
     rejectable,
+    fixed
 }) {
     /*eslint-disable*/
 
@@ -29,7 +30,7 @@ export default function ListOfOrdersNext({
         carType: "Mashina turi",
         sapcode: "Sapkod",
         orgName: "Firma nomi",
-        supCarType: "Mashina turi",
+        supCarType: "Pretsep turi",
         supCarID: "Pretsep raqami",
         sum: "Summa",
         tel: "Telefon raqam",
@@ -44,6 +45,13 @@ export default function ListOfOrdersNext({
         justifyContent: "space-between",
         alignItems: "center",
     };
+    const styleForTable = {
+        overflowX: "auto",
+        maxWidth: "100%",
+        display: "block",
+        maxHeight: "90vh",
+        minHeight: "200px",
+    };
     const [selectedElement, setSelectedElement] = useState();
     const [filters, setFilters] = useState([]);
     const [search, setSearch] = useState("");
@@ -51,31 +59,35 @@ export default function ListOfOrdersNext({
 
     useEffect(() => {
         const newFilters = {};
-    
+
         arrayOforders.forEach((element) => {
-          for (const key in element) {
-            if (element.hasOwnProperty(key)) {
-              if (!newFilters[key]) {
-                newFilters[key] = [...new Set(arrayOforders.map((elem) => (elem[key])))];
-              }
+            for (const key in element) {
+                if (element.hasOwnProperty(key)) {
+                    if (!newFilters[key]) {
+                        newFilters[key] = [
+                            ...new Set(arrayOforders.map((elem) => elem[key])),
+                        ];
+                    }
+                }
             }
-          }
         });
         setFilters(newFilters);
-      }, [arrayOforders]);
-    useEffect(()=>{
+    }, [arrayOforders]);
+    useEffect(() => {
         let obj = {};
-        Object.keys(filters).map(e=>{
-            return {[e]: filters[e]?.map(x=>({[x]:true}))}
-        }).forEach(e=>{
-            obj = {...obj, ...e}
-        })
+        Object.keys(filters)
+            .map((e) => {
+                return { [e]: filters[e]?.map((x) => ({ [x]: true })) };
+            })
+            .forEach((e) => {
+                obj = { ...obj, ...e };
+            });
         setFilterState(obj);
-    },[arrayOforders]);
+    }, [arrayOforders]);
     // for(const e in filters){
     //     console.log(filters[e]?.map(e=>({[e]:true})))
     // }
-    
+
     const downloadButton = download ? (
         <i className="fi fi-rr-download downld-btn" onClick={downloadOnExcel}></i>
     ) : null;
@@ -102,8 +114,10 @@ export default function ListOfOrdersNext({
             });
     }
 
-    function filterData(arrayOfOrders){
-        arrayOfOrders = arrayOfOrders.filter(e=>Object.values(e).join(" ").toLowerCase().includes(search.toLowerCase()))
+    function filterData(arrayOfOrders) {
+        arrayOfOrders = arrayOfOrders.filter((e) =>
+            Object.values(e).join(" ").toLowerCase().includes(search.toLowerCase())
+        );
         // console.log(arrayOfOrders);
         // arrayOfOrders = arrayOfOrders.filter(e=>{
         //     let access = true;
@@ -133,54 +147,57 @@ export default function ListOfOrdersNext({
             //         </div>
             //     </div>
             // </td>
-                <Filter 
-                    arrayOfHeaders={arrayOfHeaders} 
-                    arrayOforders={arrayOforders}
-                    style={style}
-                    filters={filters}
-                    keys={e}
-                    filterState={filterState}
-                    setFilterState={setFilterState}
-                />
-            )
+            <Filter
+                arrayOfHeaders={arrayOfHeaders}
+                arrayOforders={arrayOforders}
+                style={style}
+                filters={filters}
+                keys={e}
+                filterState={filterState}
+                setFilterState={setFilterState}
+            />
+        );
     });
-
 
     return (
         <div className="order-list border">
-            <input type="text" placeholder="Qidiruv" value={search} onChange={(e)=>setSearch(e.target.value)}/>
+            <input
+                type="text"
+                placeholder="Qidiruv"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+            />
             <div className="row">
                 <p>{header}</p>
                 {downloadButton}
             </div>
 
-            <table style={{overflowX: "auto",maxWidth:"100%", display: "block", maxHeight:"90vh", minHeight:"200px"}}>
-                    <tr style={{position:"sticky", top:0, backgroundColor:"white", }}>
-                        <td>№</td>
-                        {tableHeader}
-                        {(!rejectable)||<td>O</td>}
-                        {(!deletable)||<td>Q</td>}
-                    </tr>
+            <table style={fixed ? styleForTable : {}}>
+                <tr style={{ position: "sticky", top: 0, backgroundColor: "white" }}>
+                    <td>№</td>
+                    {tableHeader}
+                    {!rejectable || <td>O</td>}
+                    {!deletable || <td>Q</td>}
+                </tr>
 
-                    {filterData(arrayOforders)?.map((e, i) => (
-                        <>
-                            <Order
-                                key={e.id}
-                                context={e}
-                                clickFunc={() =>
-                                    clickFunc !== undefined ? clickFunc(e) : () => { }
-                                }
-                                onSelect={() => setSelect(e.id)}
-                                selectedElement={select}
-                                id={i}
-                                selectable={selectable}
-                                deletable={deletable}
-                                refresh={refresh}
-                                rejectable={rejectable}
-                            />
-                        </>
-                    ))}
-
+                {filterData(arrayOforders)?.map((e, i) => (
+                    <>
+                        <Order
+                            key={e.id}
+                            context={e}
+                            clickFunc={() =>
+                                clickFunc !== undefined ? clickFunc(e) : () => { }
+                            }
+                            onSelect={() => setSelect(e.id)}
+                            selectedElement={select}
+                            id={i}
+                            selectable={selectable}
+                            deletable={deletable}
+                            refresh={refresh}
+                            rejectable={rejectable}
+                        />
+                    </>
+                ))}
             </table>
         </div>
     );

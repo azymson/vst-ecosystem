@@ -134,6 +134,7 @@ export default function StatusPage() {
                     deletable={true}
                     refresh={refresh}
                     rejectable={true}
+                    fixed={true}
                 />
             </main>
         </>

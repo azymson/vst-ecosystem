@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import useHTTP from "../../hooks/useWeb";
 import "./listOfordersDispatch.css";
 import Timer from "../timer/Timer";
 import customAlert from "../../hooks/useAlert";
+import useHTTP1 from "../../hooks/useWeb copy";
 //eslint-disable-next-line
 export default function ListOfOrdersDispatch({ header, url, download, clickFunc, selectable, payload }) {
-    const { sendRequest } = useHTTP();
+    const { sendRequest1 } = useHTTP1();
     const [arrayOforders, setArrayOforders] = useState([]);
     const [selectedElement, setSelectedElement] = useState();
     useEffect(() => {
-        sendRequest(url, "POST", payload).then((response) => {
+        sendRequest1(url, "POST", payload).then((response) => {
             return setArrayOforders(JSON.parse(response));
         });
         //eslint-disable-next-line
@@ -18,7 +18,7 @@ export default function ListOfOrdersDispatch({ header, url, download, clickFunc,
     useEffect(() => {
         const interval = setInterval(
             () =>
-                sendRequest(url, "POST", payload).then((response) => {
+                sendRequest1(url, "POST", payload).then((response) => {
                     return setArrayOforders(JSON.parse(response));
                 }),
             5000
@@ -99,7 +99,7 @@ export default function ListOfOrdersDispatch({ header, url, download, clickFunc,
 //eslint-disable-next-line
 function Order({ context, clickFunc, onSelect, selectedElement, id, selectable, }) {
     const [loading, setLoading] = useState(false)
-    const { sendRequest } = useHTTP();
+    const { sendRequest1 } = useHTTP1();
     
     function changeSelectedData() {
         clickFunc();
@@ -107,7 +107,7 @@ function Order({ context, clickFunc, onSelect, selectedElement, id, selectable, 
     const rejectFunction = (elem) => {
         if (confirm("Tasdiqlaysizmi?")) {
             setLoading(true);
-            sendRequest("https://imbgroup.uz/reject-request-dispatch.php", "POST", {
+            sendRequest1("https://imbgroup.uz/reject-request-dispatch.php", "POST", {
                 id: elem,
                 reject_latter: "So`rovni dispetcher qaytardi",
             }).then((e) => {

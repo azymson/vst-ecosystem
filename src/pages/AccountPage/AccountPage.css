@@ -83,6 +83,10 @@
     display: flex;
     gap: 20px;
 }
+.account-page .row{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+}
 @media (max-width: 478px){
     .priveileges{
         display: flex;
@@ -95,5 +99,8 @@
     }
     .control{
         justify-content: start;
+    }
+    .account-page .row{ 
+        display: flex;
     }
 }

@@ -24,6 +24,11 @@ export default function AccountPage() {
     const [func8, setFunc8] = useState(false);
     const [func9, setFunc9] = useState(false);
     const [func10, setFunc10] = useState(false);
+    const [func11, setFunc11] = useState(false);
+    const [func12, setFunc12] = useState(false);
+    const [func13, setFunc13] = useState(false);
+    const [func14, setFunc14] = useState(false);
+
 
     const [loading, setLoading] = useState(false);
     const [arrayOfOrders, setArrayOfOrders] = useState([]);
@@ -72,8 +77,12 @@ export default function AccountPage() {
                     func7,
                     func8,
                     func9,
-                    func10
-                },codes: arrayOfOrders
+                    func10,
+                    func11,
+                    func12,
+                    func13,
+                    func14
+                }, codes: arrayOfOrders
             }).then((e) => {
                 console.log(e);
                 if (e.split(" ")[0] === "Duplicate") {
@@ -108,10 +117,14 @@ export default function AccountPage() {
                 func8,
                 func9,
                 func10,
+                func11,
+                func12,
+                func13,
+                func14
             },
             codes: arrayOfOrders
         }).then((response) => {
-            
+
             customAlert(response, "success");
             console.log(response);
             sendRequest("https://imbgroup.uz/get-all-user.php", "POST").then((e) => {
@@ -151,6 +164,10 @@ export default function AccountPage() {
             setFunc8(false);
             setFunc9(false);
             setFunc10(false);
+            setFunc11(false);
+            setFunc12(false);
+            setFunc13(false);
+            setFunc14(false);
             const data = JSON.parse(response);
             data
                 .map((e) => e.prev)
@@ -187,17 +204,31 @@ export default function AccountPage() {
                             setFunc9(true);
                             break;
                         case "10":
-                            setFunc10(true)
+                            setFunc10(true);
+                            break;
+                        case "11":
+                            setFunc11(true);
+                            break;
+                        case "12":
+                            setFunc12(true);
+                            break;
+                        case "13":
+                            setFunc13(true);
+                            break;
+                        case "14":
+                            setFunc14(true);
+                            break;
+
                     }
                 });
         });
-        sendRequest("https://imbgroup.uz/code-list-id.php", "POST",{
-            logins:login
+        sendRequest("https://imbgroup.uz/code-list-id.php", "POST", {
+            logins: login
         }).then(
             (e) => {
                 console.log(e);
                 // setArrayOfOrders(JSON.parse(e));
-                setArrayOfOrders(JSON.parse(e).map(z=>z.code));
+                setArrayOfOrders(JSON.parse(e).map(z => z.code));
             }
         );
         setName(name);
@@ -343,17 +374,53 @@ export default function AccountPage() {
                             />
                             Pul tarqatish
                         </label>
+                        <label className="priveilege">
+                            <input
+                                checked={func11}
+                                onChange={(e) => setFunc11(e.target.checked)}
+                                type="checkbox"
+                                id="privilege_request"
+                            />
+                            Kassa
+                        </label>
+                        <label className="priveilege">
+                            <input
+                                checked={func12}
+                                onChange={(e) => setFunc12(e.target.checked)}
+                                type="checkbox"
+                                id="privilege_request"
+                            />
+                            Katta Kassa
+                        </label>
+                        <label className="priveilege">
+                            <input
+                                checked={func13}
+                                onChange={(e) => setFunc13(e.target.checked)}
+                                type="checkbox"
+                                id="privilege_request"
+                            />
+                            Tarix
+                        </label>
+                        <label className="priveilege">
+                            <input
+                                checked={func14}
+                                onChange={(e) => setFunc14(e.target.checked)}
+                                type="checkbox"
+                                id="privilege_request"
+                            />
+                            Pul tarqatish(plastik)
+                        </label>
                     </div>
-                    {func0||func8 ? (
+                    {func0 || func8 ? (
                         <div className="border p-20">
                             <div className="mb-20">Kodlar</div>
                             <div className="div mb-20">
-                                <input type="text" value={newCode} onChange={elem=>setNewCode(elem.target.value)}/>
-                                <button onClick={()=>{
-                                            if(newCode !== "" && !arrayOfOrders.includes(newCode)){
-                                                setArrayOfOrders([...arrayOfOrders, newCode])
-                                            }
-                                        }}>
+                                <input type="text" value={newCode} onChange={elem => setNewCode(elem.target.value)} />
+                                <button onClick={() => {
+                                    if (newCode !== "" && !arrayOfOrders.includes(newCode)) {
+                                        setArrayOfOrders([...arrayOfOrders, newCode])
+                                    }
+                                }}>
                                     <i className="fi fi-rr-plus"></i>
                                 </button>
                             </div>
@@ -363,8 +430,8 @@ export default function AccountPage() {
                                         {arrayOfOrders.map((e, k) => (
                                             <div key={k} className="code p-20 border">
                                                 <div className="code-heading">{e}</div>{" "}
-                                                <i className="fi fi-rr-cross" 
-                                                onClick={()=>setArrayOfOrders(arrayOfOrders.filter(x=>x!==e))}
+                                                <i className="fi fi-rr-cross"
+                                                    onClick={() => setArrayOfOrders(arrayOfOrders.filter(x => x !== e))}
                                                 ></i>
                                             </div>
                                         ))}

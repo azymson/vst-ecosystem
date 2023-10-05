@@ -60,7 +60,7 @@ export default function ForceID() {
                     <div>/</div>
                     <div>{id}</div>
                 </div>
-                <div className="border groups">
+                <div className="border p-20 groups">
                     {Object.keys(data).map((e) => (
                         <div className="input-block" key={e}>
                             {arrayOfHeaders[e] !== undefined?arrayOfHeaders[e]:e}

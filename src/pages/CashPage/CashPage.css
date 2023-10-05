@@ -22,6 +22,27 @@
     color: rgb(40, 114, 132);
     font-size: 16px;
 }
+.balance{
+    color: var(--primary-color);
+    font-size: 20px;
+    font-weight: 600;
+}
+.deficit{
+    font-size: 20px;
+    font-weight: 600;
+    color: red;
+}
+
+.cash-plus{
+    font-size: 22px;
+    color: var(--primary-color);
+}
+
+.cash-page .row{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+}
 @media (max-width: 384px) {
     .cash-order{
         display: flex;

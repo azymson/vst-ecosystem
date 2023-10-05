@@ -3,12 +3,14 @@ import Header from "../../components/header/header";
 import EditablePopup from "../../components/advancedInput/advancedInput";
 import { useEffect, useRef, useState } from "react";
 import useHTTP from "../../hooks/useWeb";
+
 import customAlert from "../../hooks/useAlert";
 import ListOfOrdersNext from "../../components/listOfOrdersNext/listOfOrdersNext";
+import useHTTP1 from "../../hooks/useWeb copy";
 // import { useState } from "react";
 export default function RequestPage() {
     /*eslint-disable*/
-    const { sendRequest } = useHTTP();
+    const { sendRequest1 } = useHTTP1();
 
     const [firmCode, setFirmCode] = useState("");
     const [selectedFromPlace, setSelectedFromPlace] = useState("Toshkent");
@@ -30,7 +32,7 @@ export default function RequestPage() {
     const submitRef = useRef(null);
 
     useEffect(()=>{
-        sendRequest("https://imbgroup.uz/code-list.php","POST")
+        sendRequest1("https://imbgroup.uz/code-list.php","POST")
             .then(e=>{
                 console.log(e);
                 setCodes(JSON.parse(e).map(e=>e.code));
@@ -42,7 +44,7 @@ export default function RequestPage() {
     useEffect(() => {
         const interval = setInterval(
             () =>
-                sendRequest("https://imbgroup.uz/get-request-list.php", "POST").then((response) => {
+                sendRequest1("https://imbgroup.uz/get-request-list.php", "POST").then((response) => {
                     return setArrayOforders(JSON.parse(response));
                 }),
             5000
@@ -53,14 +55,14 @@ export default function RequestPage() {
     }, [arrayOforders]);
 
     useEffect(() => {
-        sendRequest("https://imbgroup.uz/get-request-list.php", "POST")
+        sendRequest1("https://imbgroup.uz/get-request-list.php", "POST")
             .then((e) => {
                 setArrayOforders(JSON.parse(e));
             })
     }, [])
 
     function refresh() {
-        sendRequest("https://imbgroup.uz/get-request-list.php", "POST")
+        sendRequest1("https://imbgroup.uz/get-request-list.php", "POST")
             .then((e) => {
                 setArrayOforders(JSON.parse(e));
             })
@@ -230,17 +232,6 @@ export default function RequestPage() {
                     Yangi sorov ochish
                     {filterCode()}
                     <div className="row">
-                        {/* {(firmCode === "101")?
-                        <select onChange={(e)=>setSelectedFromPlace(e.target.value)}>
-                            <option value="Toshkent">Bektemir</option>
-                            <option value="F Toshkent">Family</option>
-                        </select>:
-                        <EditablePopup
-                            Ref={selectedFromPlaceRef}
-                            heading={"Qayerdan"}
-                            onKeyDown={(event) => { { if (event.key === 'Enter') selectedToPlaceRef.current?.focus() } }}
-                            onSelectfunc={setSelectedFromPlace}
-                        />} */}
                         {
                             customFrom()
                         }
@@ -281,15 +272,8 @@ export default function RequestPage() {
                         }
                     </button>
                 </div>
-                {/* <ListOfOrders
-                    url={"https://imbgroup.uz/get-request-list.php"}
-                    header={"Sorovlar jadvali"}
-                    download={false}
-                    deletable={true}
-                /> */}
 
                 <ListOfOrdersNext
-                    url={"https://imbgroup.uz/get-request-list.php"}
                     header={"Sorovlar jadvali"}
                     download={false}
                     deletable={true}

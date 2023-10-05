@@ -142,6 +142,43 @@ export default function HomePage() {
                             <h4>Pul tarqatish bo`limi</h4>
                         </div>
                     </Link>}
+                    {(!table.includes("14")) ? null :<Link to={"/card"}>
+                        <div className="box">
+                            <h2>
+                                <i className="fi fi-rr-coins"></i>
+                            </h2>
+                            <h3>Pul tarqatish (Plastik)</h3>
+                            <h4>Pul tarqatish bo`limi</h4>
+                        </div>
+                    </Link>}
+                    {(!table.includes("11")) ? null :<Link to={"/money"}>
+                        <div className="box">
+                            <h2>
+                                <i className="fi fi-rr-dollar"></i>
+                            </h2>
+                            <h3>Kassa</h3>
+                            <h4>Pul tarqatish bo`limi</h4>
+                        </div>
+                    </Link>}
+                    {(!table.includes("13")) ? null :<Link to={"/history"}>
+                        <div className="box">
+                            <h2>
+                                <i className="fi fi-rr-time-past"></i>
+                            </h2>
+                            <h3>Tarix</h3>
+                            <h4>Pul tarqatish bo`limi</h4>
+                        </div>
+                    </Link>}
+                     {(!table.includes("12")) ? null :<Link to={"/fill"}>
+                        <div className="box">
+                            <h2>
+                                <i className="fi fi-rr-sack-dollar"></i>
+                            </h2>
+                            <h3>Bosh kassa</h3>
+                            <h4>Pul tarqatish bo`limi</h4>
+                        </div>
+                    </Link>}
+                    
                 </div>
             </main>
         </>

@@ -18,6 +18,12 @@ import LocationPage from './pages/LocationPage/LocationPage';
 import ForcePage from './pages/Force/ForcePage';
 import CashPage from './pages/CashPage/CashPage';
 import ForceID from './pages/ForceID/ForceID';
+import MoneyPage from './pages/MoneyPage/MoneyPage';
+import CashID from './pages/CashID/cashID';
+import CardPage from './pages/CardPage/CardPage';
+import CardID from './pages/cardID/cardID';
+import HistoryPage from './pages/historyPage/HistoryPage';
+import FillBalancePage from './pages/FillBalancePage/FillBalancePage';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     
@@ -38,6 +44,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route element={<ForcePage/>} path={"/force"}/>
         <Route element={<ForceID/>} path={"/force/:id"}/>
         <Route element={<CashPage/>} path={"/cash"}/>
+        <Route element={<CardPage/>} path={"/card"}/>
+        <Route element={<CashID/>} path={"/cash/:id"}/>
+        <Route element={<CardID/>} path={"/card/:id"}/>
+        <Route element={<MoneyPage/>} path={"/money"}/>
+        <Route element={<HistoryPage/>} path={"/history"}/>
+        <Route element={<FillBalancePage/>} path={"/fill"}/>
+
         <Route path='*' element={<div>404 Not found</div>}></Route>
 
       </Routes>

@@ -1,0 +1,10 @@
+.history-page{
+    display: grid;
+    grid-template-columns: 200px 1fr;
+}
+@media (max-width: 1300px) {
+    .history-page{
+        display: flex;
+        flex-direction: column;
+    }    
+}

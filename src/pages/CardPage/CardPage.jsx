@@ -3,10 +3,10 @@ import { useEffect } from "react";
 import CashList from "../../components/cashList/cashList";
 import Header from "../../components/header/header";
 import useHTTP from "../../hooks/useWeb";
-import "./CashPage.css";
+import "./CardPage.css";
 import customAlert from "../../hooks/useAlert";
 
-export default function CashPage() {
+export default function CardPage() {
     const { sendRequest } = useHTTP();
     const [cashList, setCashList] = useState([]);
     const [transactions, setTransactions] = useState([]);
@@ -14,12 +14,10 @@ export default function CashPage() {
     const [mode, setMode] = useState("cash");
     const [search, setSearch] = useState("");
 
+
     useEffect(() => {
-        sendRequest("https://imbgroup.uz/get-cash-list.php", "POST").then((e) =>
-            {
-                setCashList(JSON.parse(e))
-                console.log(JSON.parse(e));
-            }
+        sendRequest("https://imbgroup.uz/get-card-list.php", "POST").then((e) =>
+            setCashList(JSON.parse(e))
         );
         // eslint-disable-next-line
     }, []);
@@ -80,11 +78,10 @@ export default function CashPage() {
                                 <div>Defetsit</div>
                                 <div className="deficit">{deficit()} UZS</div>
                             </div>
-                            
-                        <input type="text" value={search} onChange={e=>setSearch(e.target.value)} placeholder="Qidiruv"/>
+                            <input type="text" value={search} onChange={e=>setSearch(e.target.value)} placeholder="Qidiruv"/>
                         </div>
                         <div>
-                            <CashList cashList={filterData(cashList)} type={0}/>
+                            <CashList cashList={cashList} type={1}/>
                         </div>
                     </>
                 }
@@ -98,6 +95,7 @@ export default function CashPage() {
                         <button onClick={()=>reciveMoney(e.id)}>Qabul qilish</button>
                         <button onClick={()=>rejectMoney(e.id)}>Qaytarish</button>
                         </div>
+
                     </div>)}
                 </>}
             </main>

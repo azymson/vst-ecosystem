@@ -13,6 +13,26 @@
     gap: 20px;
     margin-top: 20px;
 }
+.dispatch-page__reserve-button{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.361);
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.dispatch-modal{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.bg-white{
+    background-color: white;
+}
 .d-none{
     display: none;
 }

@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import Header from "../../components/header/header";
 import "./Registry.css";
-import useHTTP from "../../hooks/useWeb";
+
 import ListOfOrders from "../../components/listOfOrders/listOfOrders";
 import customAlert from "../../hooks/useAlert";
 import ListOfOrdersNext from "../../components/listOfOrdersNext/listOfOrdersNext";
+import useHTTP1 from "../../hooks/useWeb copy";
 
 export default function RegistryPage() {
     const supRef = useRef(null);
@@ -17,7 +18,7 @@ export default function RegistryPage() {
         window.location.href = "./";
     }
 
-    const { sendRequest } = useHTTP();
+    const { sendRequest1 } = useHTTP1();
     const [arrayOforders, setArrayOforders] = useState([]);
     const [loading, setLoading] = useState(false);
     const [carID, setCarID] = useState("");
@@ -25,12 +26,22 @@ export default function RegistryPage() {
     const [orgName, setOrgName] = useState("");
     const [supCarType, setSupCarType] = useState("REF");
     const [supCarID, setSupID] = useState("");
-    const [sum, setSum] = useState("");
+    const [sum, setSum] = useState(0);
     const [carName, setCarName] = useState("");
     const [fio, setFio] = useState("");
     const [tel, setTel] = useState("");
     const [id, setID] = useState("");
     const [select, setSelect] = useState("");
+    const [selectedOption, setSelectedOption] = useState("0");
+    const [plastik, setPlastik] = useState("0");
+
+    const handleOptionChange = (event) => {
+      setSelectedOption(parseInt(event.target.value, 10));
+    };
+    function parseToInteger(input) {
+        let parsedNumber = parseInt(input, 10);
+        return isNaN(parsedNumber) ? 0 : parsedNumber;
+    }
 
     function sendMessageToBot() {
         const numberPattern = /^[0-9]+$/;
@@ -84,22 +95,25 @@ export default function RegistryPage() {
 
         if (answer) {
             setLoading(true);
-            sendRequest("https://imbgroup.uz/post-product.php", "POST", {
+            sendRequest1("https://imbgroup.uz/post-product.php", "POST", {
                 carType,
                 orgName,
                 supCarType,
                 supCarID,
-                sum,
+                sum: (parseToInteger(sum) + parseToInteger(plastik)),
                 carName,
                 fio,
                 tel,
                 id,
-                carID
+                carID,
+                selectedOption,
+                plastik: parseToInteger(plastik),
+                naxd: parseToInteger(sum)
             }).then((e) => {
                 setLoading(false);
                 customAlert(e, "success");
                 setID("");
-                sendRequest("https://imbgroup.uz/get-request-dispatch.php", "POST")
+                sendRequest1("https://imbgroup.uz/get-request-dispatch.php", "POST")
                     .then(e => {
                         setArrayOforders(JSON.parse(e));
                     })
@@ -108,9 +122,8 @@ export default function RegistryPage() {
     }
 
     useEffect(() => {
-        sendRequest("https://imbgroup.uz/get-request-dispatch.php", "POST")
+        sendRequest1("https://imbgroup.uz/get-request-dispatch.php", "POST")
             .then(e => {
-                console.log(e);
                 setArrayOforders(JSON.parse(e));
             })
     }, []);
@@ -118,7 +131,7 @@ export default function RegistryPage() {
     useEffect(() => {
         const interval = setInterval(
             () =>
-                sendRequest("https://imbgroup.uz/get-request-dispatch.php", "POST")
+                sendRequest1("https://imbgroup.uz/get-request-dispatch.php", "POST")
                     .then(e => {
                         console.log(e);
 
@@ -131,7 +144,9 @@ export default function RegistryPage() {
         }; //eslint-disable-next-line
     }, [arrayOforders]);
 
-
+    useEffect(()=>{
+        console.log(parseToInteger(sum) + parseToInteger(plastik));
+    })
     return (
         <>
             <Header />
@@ -231,19 +246,54 @@ export default function RegistryPage() {
                             value={orgName}
                             onKeyDown={e => (e.key === "Enter") ? e.target.nextSibling.focus() : null}
                         />
-                        <input
+                        <div className="border p-20">
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="options"
+                                    value="0"
+                                    checked={selectedOption === 0}
+                                    onChange={handleOptionChange}
+                                />
+                                Naqd Pull
+                            </label>
+                            <br />
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="options"
+                                    value="1"
+                                    checked={selectedOption === 1}
+                                    onChange={handleOptionChange}
+                                />
+                                Plastik
+                            </label>
+                            <br />
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="options"
+                                    value="2"
+                                    checked={selectedOption === 2}
+                                    onChange={handleOptionChange}
+                                />
+                                Ikkalasi Ham
+                            </label>
+                        </div>
+                        {(selectedOption === 1 || selectedOption === 2) && <input  type="text" value={plastik} onChange={(e)=>setPlastik(e.target.value)} placeholder="Plastik"/>}
+                        {(selectedOption === 0 || selectedOption === 2) && <input
                             onChange={(e) => setSum(e.target.value)}
                             type="text"
                             name="sapkod"
-                            placeholder="Summa"
+                            placeholder="Naqd"
                             value={sum}
                             onKeyDown={e => (e.key === "Enter") ? e.target.nextSibling.focus() : null}
-                        />
+                        />}
                         <button onClick={sendMessageToBot}>{loading ? "Jonatilmoqda..." : "Jonatish"}</button>
 
                     </div>
                     <div>
-                        <div className="border p-20">
+                        <div>
                             <ListOfOrdersNext
                                 arrayOforders={arrayOforders}
                                 header={"Sorovlar"}

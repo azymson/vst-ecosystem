@@ -1,0 +1,50 @@
+.balance{
+    position: relative;
+    overflow: hidden;
+}
+.sum{
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 24px;
+}
+.back-img{
+    position: absolute;
+    font-size: 36px;
+    color: var(--primary-color);
+    top: 40%;
+    right: 20px;
+}
+.money-page .row{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    gap: 20px;
+    align-items: stretch;
+}
+.add-money{
+    padding: 0;
+    padding: 5px;
+    box-shadow: none;
+    
+}
+.add-money:focus{
+    box-shadow: none;
+}
+.add-money:hover{
+    box-shadow: none;
+}
+
+.left-menu{
+    display: flex;
+    gap: 20px;
+    height: min-content;
+    flex-direction: column;
+}
+.left-menu div{
+    cursor: pointer;
+}
+.align-center{
+    display: grid !important;
+    grid-template-columns: 1fr 20px 1fr;
+    align-items: center !important;
+}

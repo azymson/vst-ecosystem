@@ -115,15 +115,7 @@ export default function HomePage() {
                             <h4>Dispetcherlar so`ro`vlar davomati</h4>
                         </div>
                     </Link>}
-                    {(!table.includes("9")) ? null : <Link to={"/location"}>
-                        <div className="box">
-                            <h2>
-                                <i className="fi fi-rr-marker"></i>
-                            </h2>
-                            <h3>Lokatsiya</h3>
-                            <h4>Lokatsiya berish</h4>
-                        </div>
-                    </Link>}
+                   
                     {(!table.includes("99")) ? null : <Link to={"/force"}>
                         <div className="box">
                             <h2>

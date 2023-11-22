@@ -289,11 +289,13 @@ import "./RequestPage.css";
 import Header from "../../components/header/header";
 import EditablePopup from "../../components/advancedInput/advancedInput";
 import { useEffect, useRef, useState } from "react";
+import { io } from "socket.io-client";
 import useHTTP from "../../hooks/useWeb";
 
 import customAlert from "../../hooks/useAlert";
 import ListOfOrdersNext from "../../components/listOfOrdersNext/listOfOrdersNext";
 import useHTTP1 from "../../hooks/useWeb copy";
+
 // import { useState } from "react";
 export default function RequestPage() {
     /*eslint-disable*/
@@ -317,7 +319,11 @@ export default function RequestPage() {
     const carCountRef = useRef(null);
     const commentRef = useRef(null);
     const submitRef = useRef(null);
+<<<<<<< HEAD
 
+=======
+    const socket = useRef(null);
+>>>>>>> 37c9251f5b28c9c80509a767cad604d126a459f2
     useEffect(() => {
         sendRequest1("https://imbgroup.uz/code-list.php", "POST")
             .then(e => {
@@ -345,12 +351,23 @@ export default function RequestPage() {
             .then((e) => {
                 setArrayOforders(JSON.parse(e));
             })
-    }, [])
+    }, []);
+
+    useEffect(()=>{
+        socket.current = io("http://localhost:3000");
+        socket.current.on("order", ()=>{
+            // refresh();
+        })
+        return ()=>{
+            socket.current.disconnect();
+        }
+    },[]);
 
     function refresh() {
         sendRequest1("https://imbgroup.uz/get-request-list.php", "POST")
             .then((e) => {
                 setArrayOforders(JSON.parse(e));
+                socket.current.emit('order');
             })
     }
 
@@ -388,6 +405,7 @@ export default function RequestPage() {
 
             setLoading(false);
             customAlert(response, "success");
+<<<<<<< HEAD
 
             const requestList = await sendRequest("https://imbgroup.uz/get-request-list.php", "POST");
             setArrayOforders(JSON.parse(requestList));
@@ -423,6 +441,47 @@ export default function RequestPage() {
 
         if (answer) {
             submitForm();
+=======
+            const { sendRequest } = useHTTP();
+            sendRequest("https://imbgroup.uz/get-request-list.php", "POST")
+                .then((e) => {
+                    setArrayOforders(JSON.parse(e));
+                })
+        });
+    }
+    
+    
+    function validate() {
+        const numberPattern = /^[0-9]+$/;
+        let answer = true;
+        if (firmCode.length < 1) {
+            customAlert("firma kodi bo`sh bo`lishi mumkin emas", "alert");
+            answer = false;
+        }
+        if (!numberPattern.test(firmCode)) {
+            customAlert("firma kodi raqmlardan tashkil topgan", "alert");
+            answer = false;
+        }
+        if (selectedFromPlace.length < 1) {
+            customAlert("Qayerdan kelish bo`sh bo`lishi mumkin emas", "alert");
+            answer = false;
+        }
+        if (selectedToPlace.length < 1) {
+            customAlert("Qayerga borish bo`sh bo`lishi mumkin emas", "alert");
+            answer = false;
+        }
+        if (carCount.length < 1) {
+            answer = false;
+            customAlert("Mashina soni bo`sh bo`lishi mumkin emas", "alert");
+        }
+        if (!numberPattern.test(carCount)) {
+            answer = false;
+            customAlert("Mashina soni raqmlardan tashkil topgan", "alert");
+        }
+        if (answer) {
+            socket.current.emit('order');
+            // submitForm();
+>>>>>>> 37c9251f5b28c9c80509a767cad604d126a459f2
         }
     }
 

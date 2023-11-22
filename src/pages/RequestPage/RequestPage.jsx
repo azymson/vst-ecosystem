@@ -2,11 +2,13 @@ import "./RequestPage.css";
 import Header from "../../components/header/header";
 import EditablePopup from "../../components/advancedInput/advancedInput";
 import { useEffect, useRef, useState } from "react";
+import { io } from "socket.io-client";
 import useHTTP from "../../hooks/useWeb";
 
 import customAlert from "../../hooks/useAlert";
 import ListOfOrdersNext from "../../components/listOfOrdersNext/listOfOrdersNext";
 import useHTTP1 from "../../hooks/useWeb copy";
+
 // import { useState } from "react";
 export default function RequestPage() {
     /*eslint-disable*/
@@ -30,14 +32,14 @@ export default function RequestPage() {
     const carCountRef = useRef(null);
     const commentRef = useRef(null);
     const submitRef = useRef(null);
-
-    useEffect(()=>{
-        sendRequest1("https://imbgroup.uz/code-list.php","POST")
-            .then(e=>{
+    const socket = useRef(null);
+    useEffect(() => {
+        sendRequest1("https://imbgroup.uz/code-list.php", "POST")
+            .then(e => {
                 console.log(e);
-                setCodes(JSON.parse(e).map(e=>e.code));
+                setCodes(JSON.parse(e).map(e => e.code));
             })
-    },[])
+    }, [])
     useEffect(() => {
         firmCodeRef.current?.focus();
     }, []);
@@ -59,12 +61,23 @@ export default function RequestPage() {
             .then((e) => {
                 setArrayOforders(JSON.parse(e));
             })
-    }, [])
+    }, []);
+
+    useEffect(()=>{
+        socket.current = io("http://localhost:3000");
+        socket.current.on("order", ()=>{
+            // refresh();
+        })
+        return ()=>{
+            socket.current.disconnect();
+        }
+    },[]);
 
     function refresh() {
         sendRequest1("https://imbgroup.uz/get-request-list.php", "POST")
             .then((e) => {
                 setArrayOforders(JSON.parse(e));
+                socket.current.emit('order');
             })
     }
 
@@ -105,6 +118,8 @@ export default function RequestPage() {
                 })
         });
     }
+    
+    
     function validate() {
         const numberPattern = /^[0-9]+$/;
         let answer = true;
@@ -133,8 +148,8 @@ export default function RequestPage() {
             customAlert("Mashina soni raqmlardan tashkil topgan", "alert");
         }
         if (answer) {
-
-            submitForm();
+            socket.current.emit('order');
+            // submitForm();
         }
 
     }
@@ -160,10 +175,10 @@ export default function RequestPage() {
                 <option value="G`azalkent">G'azalkent</option>
             </select>
             case "116": return <select onChange={(e) => setSelectedFromPlace(e.target.value)}>
-            <option disabled selected>Yonalishlar</option>
-            <option value="Xonobod">Xonobod</option>
-            <option value="Qumariq">Qumariq</option>
-            <option value="G`azalkent">G'azalkent</option>
+                <option disabled selected>Yonalishlar</option>
+                <option value="Xonobod">Xonobod</option>
+                <option value="Qumariq">Qumariq</option>
+                <option value="G`azalkent">G'azalkent</option>
             </select>
             case "301": return <select onChange={(e) => setSelectedFromPlace(e.target.value)}>
                 <option disabled selected>Yonalishlar</option>
@@ -201,23 +216,23 @@ export default function RequestPage() {
             />
         }
     }
-    function filterCode(){
-        if(codes.length === 0){
-            return    <input
-            type="text"
-            value={firmCode}
-            onChange={(e) => setFirmCode(e.target.value)}
-            placeholder="Firma kodi"
-            ref={firmCodeRef}
-            onKeyDown={(event) => { if (event.key === 'Enter') handleKeyPress(event, selectedFromPlaceRef) }}
-        />
-        }else{
-            return <select onChange={(d)=>setFirmCode(d.target.value)}> 
+    function filterCode() {
+        if (codes.length === 0) {
+            return <input
+                type="text"
+                value={firmCode}
+                onChange={(e) => setFirmCode(e.target.value)}
+                placeholder="Firma kodi"
+                ref={firmCodeRef}
+                onKeyDown={(event) => { if (event.key === 'Enter') handleKeyPress(event, selectedFromPlaceRef) }}
+            />
+        } else {
+            return <select onChange={(d) => setFirmCode(d.target.value)}>
                 <option selected disabled>Kodni tanlang</option>
-                {codes.map((e,i)=><option key={i}>{e}</option>)}
+                {codes.map((e, i) => <option key={i}>{e}</option>)}
             </select>
         }
-        
+
     }
     return (
         <>
@@ -258,7 +273,7 @@ export default function RequestPage() {
                         placeholder="Qoshimch malumot"
                         onChange={(e) => setComment(e.target.value)}
                     />
-                    
+
                     <input
                         type="date"
                         ref={selectedDateRef}

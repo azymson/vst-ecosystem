@@ -39,6 +39,7 @@ export default function Order({
     };
 
     const rejectFunction = (elem) => {
+        
         let reject_latter = prompt("Sababi");
 
         if (reject_latter) {

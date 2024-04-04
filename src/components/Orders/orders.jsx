@@ -11,7 +11,10 @@ export default function Order({
     selectable,
     deletable,
     refresh,
-    rejectable
+    rejectable,
+    socket,
+    multiselect,
+    setMultiselect
     /*eslint-disable*/
 
 }) {
@@ -53,6 +56,7 @@ export default function Order({
                     customAlert(e, "success");
                     setLoading(false);
                     refresh();
+                    socket.emit("order");
                 });
             }
         }
@@ -71,6 +75,7 @@ export default function Order({
                     customAlert(e, "success");
                     setLoading(false);
                     refresh();
+                    socket.emit("order");
                 });
             }
         }
@@ -80,6 +85,7 @@ export default function Order({
 
     return (
         <tr className={styleSelected} onClick={changeSelectedData} style={{width:"100%"}}>
+            {deletable&&<td onClick={multiselect.includes(context.id)?()=>setMultiselect(multiselect.filter(e=>e !== context.id)):()=>setMultiselect([...multiselect,context.id])} key={context.id}><input className="p-20 border" type="checkbox" checked={multiselect.includes(context.id)} name="" id="" onChange={multiselect.includes(context.id)?()=>setMultiselect(multiselect.filter(e=>e !== context.id)):()=>setMultiselect([...multiselect,context.id])}/></td>}
             <td key={id + 1}>{id + 1}</td>
             {Object.entries(context).map(([key, value], i) => {
                 if (key === "type") {

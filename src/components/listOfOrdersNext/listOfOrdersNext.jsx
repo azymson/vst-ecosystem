@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import customAlert from "../../hooks/useAlert";
+import useHTTP from "../../hooks/useWeb";
 import Filter from "../filter/filter";
 import Order from "../Orders/orders";
 // import "./listOfordersNext.css";
@@ -15,7 +17,8 @@ export default function ListOfOrdersNext({
     setSelect,
     select,
     rejectable,
-    fixed
+    fixed,
+    socket
 }) {
     /*eslint-disable*/
 
@@ -56,6 +59,7 @@ export default function ListOfOrdersNext({
     const [filters, setFilters] = useState([]);
     const [search, setSearch] = useState("");
     const [filterState, setFilterState] = useState([]);
+    const [multiselect, setMultiselect] = useState([]);
 
     useEffect(() => {
         const newFilters = {};
@@ -87,10 +91,29 @@ export default function ListOfOrdersNext({
     // for(const e in filters){
     //     console.log(filters[e]?.map(e=>({[e]:true})))
     // }
-
+    useEffect(()=>{console.log(JSON.stringify(multiselect))},[multiselect]);
     const downloadButton = download ? (
         <i className="fi fi-rr-download downld-btn" onClick={downloadOnExcel}></i>
     ) : null;
+
+    const cancelFunc = () => {
+        let reject_latter = prompt("Sababi");
+        if (reject_latter) {
+            if (confirm("Tasdiqlaysizmi?")) {
+                const { sendRequest } = useHTTP();
+                sendRequest("https://imbgroup.uz/multi-cancel-request.php", "POST", {
+                    ids: multiselect,
+                    reject_latter
+                }).then((e) => {
+                    customAlert(e, "success");
+                    refresh();
+                    socket.emit("order");
+                    setMultiselect([]);
+                });
+            }
+        }
+        else customAlert("Sababi bo'lishi shart");
+    };
 
     function downloadOnExcel() {
         fetch("https://imbgroup.uz/get-list-excel.php", {
@@ -172,8 +195,22 @@ export default function ListOfOrdersNext({
                 {downloadButton}
             </div>
 
+{deletable&&<span className="cursor-pointer" onClick={cancelFunc}><i className="fi fi-rr-trash" ></i> Belgilanganlarni o`chirib yuborish</span>}
             <table style={fixed ? styleForTable : {}}>
                 <tr style={{ position: "sticky", top: 0, backgroundColor: "white" }}>
+                    {deletable&&<td onClick={()=>{
+                        if(multiselect.length !== arrayOforders.length){
+                            setMultiselect(arrayOforders.map(e=>e.id));
+                        }else{
+                            setMultiselect([]);
+                        }
+                    }}><input type="checkbox" checked={multiselect.length === arrayOforders.length} name="" id="" onChange={()=>{
+                        if(multiselect.length !== arrayOforders.length){
+                            setMultiselect(arrayOforders.map(e=>e.id));
+                        }else{
+                            setMultiselect([]);
+                        }
+                    }}/></td>}
                     <td>№</td>
                     {tableHeader}
                     {!rejectable || <td>O</td>}
@@ -183,6 +220,8 @@ export default function ListOfOrdersNext({
                 {filterData(arrayOforders)?.map((e, i) => (
                     <>
                         <Order
+                            multiselect={multiselect}
+                            setMultiselect={setMultiselect}
                             key={e.id}
                             context={e}
                             clickFunc={() =>
@@ -195,6 +234,7 @@ export default function ListOfOrdersNext({
                             deletable={deletable}
                             refresh={refresh}
                             rejectable={rejectable}
+                            socket={socket}
                         />
                     </>
                 ))}

@@ -100,13 +100,13 @@ export default function DispatchPage() {
                     header={"Tasdiqlanishi kutulayotgan sorovlar"}
                 />
             </div>
-            <div className="border ">
+            {/* <div className="border ">
                 <ListOfOrdersNext
                     arrayOforders={history}
                     header={"So`rovlar tarixi"}
                     setSelect={() => { }}
                 />
-            </div>
+            </div> */}
 
         </main>
     </>

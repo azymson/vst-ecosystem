@@ -34,9 +34,17 @@ export default function RegistryPage() {
     const [select, setSelect] = useState("");
     const [selectedOption, setSelectedOption] = useState("0");
     const [plastik, setPlastik] = useState("0");
+    
+    const [tashuvchi, setTashuvchi] = useState("");
+    const [inn, setInn] = useState("");
+    const [shartnomaRaqami, setShartnomaRaqami] = useState("");
+    const [masulShaxs, setMasulShaxs] = useState("");
+    const [masulShaxsJsh, setMasulShaxsJsh] = useState("");
+    const [xaydovchiJsh, setXaydovchiJsh] = useState("");
+
 
     const handleOptionChange = (event) => {
-      setSelectedOption(parseInt(event.target.value, 10));
+        setSelectedOption(parseInt(event.target.value, 10));
     };
     function parseToInteger(input) {
         let parsedNumber = parseInt(input, 10);
@@ -108,7 +116,8 @@ export default function RegistryPage() {
                 carID,
                 selectedOption,
                 plastik: parseToInteger(plastik),
-                naxd: parseToInteger(sum)
+                naxd: parseToInteger(sum),
+                tashuvchi,inn,shartnomaRaqami,masulShaxs,masulShaxsJsh,xaydovchiJsh
             }).then((e) => {
                 setLoading(false);
                 customAlert(e, "success");
@@ -144,7 +153,7 @@ export default function RegistryPage() {
         }; //eslint-disable-next-line
     }, [arrayOforders]);
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log(parseToInteger(sum) + parseToInteger(plastik));
     })
     return (
@@ -280,7 +289,7 @@ export default function RegistryPage() {
                                 Ikkalasi Ham
                             </label>
                         </div>
-                        {(selectedOption === 1 || selectedOption === 2) && <input  type="text" value={plastik} onChange={(e)=>setPlastik(e.target.value)} placeholder="Plastik"/>}
+                        {(selectedOption === 1 || selectedOption === 2) && <input type="text" value={plastik} onChange={(e) => setPlastik(e.target.value)} placeholder="Plastik" />}
                         {(selectedOption === 0 || selectedOption === 2) && <input
                             onChange={(e) => setSum(e.target.value)}
                             type="text"
@@ -289,6 +298,61 @@ export default function RegistryPage() {
                             value={sum}
                             onKeyDown={e => (e.key === "Enter") ? e.target.nextSibling.focus() : null}
                         />}
+
+
+                        <input
+                            onChange={(e) => setTashuvchi(e.target.value)}
+                            type="text"
+                            id="supCarID"
+                            name="supCarID"
+                            placeholder="Tashuvchi"
+                            value={tashuvchi}
+                        />
+                        <input
+                            onChange={(e) => setInn(e.target.value)}
+                            type="text"
+                            id="supCarID"
+                            name="supCarID"
+                            placeholder="INN"
+                            value={inn}
+                        />
+                        <input
+                            onChange={(e) => setShartnomaRaqami(e.target.value)}
+                            type="text"
+                            id="supCarID"
+                            name="supCarID"
+                            placeholder="Shartnoma №"
+                            value={shartnomaRaqami}
+                            ref={supRef}
+                            onKeyDown={e => (e.key === "Enter") ? e.target.nextSibling.focus() : null}
+                        />
+                        <input
+                            onChange={(e) => setMasulShaxs(e.target.value)}
+                            type="text"
+                            id="supCarID"
+                            name="supCarID"
+                            placeholder="Ma'sul shaxs"
+                            value={masulShaxs}
+                            ref={supRef}
+                            onKeyDown={e => (e.key === "Enter") ? e.target.nextSibling.focus() : null}
+                        />
+                        <input
+                            onChange={(e) => setMasulShaxsJsh(e.target.value)}
+                            type="text"
+                            id="supCarID"
+                            name="supCarID"
+                            placeholder="Ma'sul shaxs JShShIR"
+                            value={masulShaxsJsh}
+                        />
+                        <input
+                            onChange={(e) => setXaydovchiJsh(e.target.value)}
+                            type="text"
+                            id="supCarID"
+                            name="supCarID"
+                            placeholder="Xaydovchi JShShIR"
+                            value={xaydovchiJsh}
+                        />
+
                         <button onClick={sendMessageToBot}>{loading ? "Jonatilmoqda..." : "Jonatish"}</button>
 
                     </div>

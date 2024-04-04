@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
 import { useState } from "react";
 //eslint-disable-next-line
-export default function Filter({ arrayOforders, arrayOfHeaders, style, filters, keys, filterState, setFilterState }) {
+export default function Filter({ arrayOforders,socket, arrayOfHeaders, style, filters, keys, filterState, setFilterState }) {
     const [open, setOpen] = useState(false);
     // const [filterArray, setFilterArray] = useState(filters);
     let dn = (open) ? { display: "flex" } : { display: "none" };

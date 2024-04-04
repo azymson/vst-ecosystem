@@ -66,6 +66,7 @@ export default function AnalyzePage() {
                 tel
             }).then((x) => {
                 customAlert(x, "success");
+                console.log(x);
                 setLoading(false);
                 setSelect("");
                 sendRequest("https://imbgroup.uz/get-list.php", "POST")

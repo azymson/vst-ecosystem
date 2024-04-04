@@ -49,7 +49,7 @@ export default function RequestPage() {
                 sendRequest1("https://imbgroup.uz/get-request-list.php", "POST").then((response) => {
                     return setArrayOforders(JSON.parse(response));
                 }),
-            5000
+            10000
         );
         return () => {
             clearInterval(interval);
@@ -64,9 +64,9 @@ export default function RequestPage() {
     }, []);
 
     useEffect(()=>{
-        socket.current = io("http://localhost:3000");
+        socket.current = io("https://flow.imbgroup.uz/");
         socket.current.on("order", ()=>{
-            // refresh();
+            refresh();
         })
         return ()=>{
             socket.current.disconnect();
@@ -76,8 +76,8 @@ export default function RequestPage() {
     function refresh() {
         sendRequest1("https://imbgroup.uz/get-request-list.php", "POST")
             .then((e) => {
+                console.log("refresh");
                 setArrayOforders(JSON.parse(e));
-                socket.current.emit('order');
             })
     }
 
@@ -111,11 +111,8 @@ export default function RequestPage() {
         }).then((response) => {
             setLoading(false);
             customAlert(response, "success");
-            const { sendRequest } = useHTTP();
-            sendRequest("https://imbgroup.uz/get-request-list.php", "POST")
-                .then((e) => {
-                    setArrayOforders(JSON.parse(e));
-                })
+            socket.current.emit('order');
+            refresh();
         });
     }
     
@@ -148,8 +145,7 @@ export default function RequestPage() {
             customAlert("Mashina soni raqmlardan tashkil topgan", "alert");
         }
         if (answer) {
-            socket.current.emit('order');
-            // submitForm();
+            submitForm();
         }
 
     }
@@ -294,6 +290,7 @@ export default function RequestPage() {
                     deletable={true}
                     arrayOforders={arrayOforders}
                     refresh={refresh}
+                    socket={socket.current}
                 />
             </main>
         </>

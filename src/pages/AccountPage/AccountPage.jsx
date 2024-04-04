@@ -411,35 +411,35 @@ export default function AccountPage() {
                             Pul tarqatish(plastik)
                         </label>
                     </div>
-                    {func0 || func8 ? (
-                        <div className="border p-20">
-                            <div className="mb-20">Kodlar</div>
-                            <div className="div mb-20">
-                                <input type="text" value={newCode} onChange={elem => setNewCode(elem.target.value)} />
-                                <button onClick={() => {
-                                    if (newCode !== "" && !arrayOfOrders.includes(newCode)) {
-                                        setArrayOfOrders([...arrayOfOrders, newCode])
-                                    }
-                                }}>
-                                    <i className="fi fi-rr-plus"></i>
-                                </button>
-                            </div>
-                            <div className="row">
-                                {
-                                    <div className="codes">
-                                        {arrayOfOrders.map((e, k) => (
-                                            <div key={k} className="code p-20 border">
-                                                <div className="code-heading">{e}</div>{" "}
-                                                <i className="fi fi-rr-cross"
-                                                    onClick={() => setArrayOfOrders(arrayOfOrders.filter(x => x !== e))}
-                                                ></i>
-                                            </div>
-                                        ))}
-                                    </div>
+
+                    <div className="border p-20">
+                        <div className="mb-20">Kodlar</div>
+                        <div className="div mb-20">
+                            <input type="text" value={newCode} onChange={elem => setNewCode(elem.target.value)} />
+                            <button onClick={() => {
+                                if (newCode !== "" && !arrayOfOrders.includes(newCode)) {
+                                    setArrayOfOrders([...arrayOfOrders, newCode])
                                 }
-                            </div>
+                            }}>
+                                <i className="fi fi-rr-plus"></i>
+                            </button>
                         </div>
-                    ) : null}
+                        <div className="row">
+                            {
+                                <div className="codes">
+                                    {arrayOfOrders.map((e, k) => (
+                                        <div key={k} className="code p-20 border">
+                                            <div className="code-heading">{e}</div>{" "}
+                                            <i className="fi fi-rr-cross"
+                                                onClick={() => setArrayOfOrders(arrayOfOrders.filter(x => x !== e))}
+                                            ></i>
+                                        </div>
+                                    ))}
+                                </div>
+                            }
+                        </div>
+                    </div>
+
                     {mode === "create" ? (
                         <button onClick={createAccount}>Yangi akkaunt qo`shish</button>
                     ) : (

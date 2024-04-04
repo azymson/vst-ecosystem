@@ -1,5 +1,3 @@
-import customAlert from "./useAlert";
-
 function createBlocker() {
     const blocker = document.createElement("div");
     blocker.classList.add("preloader");
